@@ -1,0 +1,80 @@
+﻿@page
+@model LoginModel
+
+@{
+    Layout = null;
+}
+<head>
+    <link rel="stylesheet" href="~/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+<h1>@ViewData["Title"]</h1>
+<div class="main">
+    <section class="signin">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="~/images/signin-image.jpg" alt="sign in image"></figure>
+                    <a href="@Url.Page("/Account/Register")" class="signup-image-link">Create an account</a>
+                </div>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Sign in</h2>
+                    <form method="post" id="login-form">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input asp-for="Input.Email" type="email" id="email" placeholder="Your Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input asp-for="Input.Password" type="password" id="password" placeholder="Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Remember Me Checkbox -->
+                        <div class="form-group">
+                            <input class="form-check-input" asp-for="Input.RememberMe" type="checkbox" id="remember-me" />
+                            <label class="label-agree-term" for="remember-me">
+                                <span><span></span></span>Remember me
+                            </label>
+                        </div>
+
+
+                        <!-- Submit Button -->
+                        <div class="form-group form-button">
+                            <button type="submit" class="form-submit">Log in</button>
+                        </div>
+
+                        <!-- Forgot Password and Registration Links -->
+                        <div class="form-group form-button">
+                            <p class="signup-link">
+                                <a id="forgot-password" asp-page="./ForgotPassword" class="signup-image-link">Forgot your password?</a>
+                            </p>
+                            <p class="signup-link">
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="signup-image-link">Register as a new user</a>
+                            </p>
+                            <p class="signup-link">
+                                <a id="resend-confirmation" asp-page="./ResendEmailConfirmation" class="signup-image-link">Resend email confirmation</a>
+                            </p>
+                        </div>
+                    </form>
+
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/js/main.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/additional-methods.min.js"></script>
+<script src="~/js/_ValidationScriptsPartial.js"></script>
+</body>
