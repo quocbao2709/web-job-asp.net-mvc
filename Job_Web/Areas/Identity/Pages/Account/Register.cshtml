@@ -3,72 +3,73 @@
 @{
     Layout = null;
 }
-
+<head>
+    <link rel="stylesheet" href="~/fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
 <h1>@ViewData["Title"]</h1>
 
-<div class="row">
-    <div class="col-md-4">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
-            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Input.Role" class="control-label"></label>
-                <select asp-for="Input.Role" class="form-control">
-                    <option value="Customer">Customer</option>
-                    <option value="Employer">Employer</option>
-                </select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to register.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins!)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+<div class="main">
+    <section class="signup">
+        <div class="container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Create an account</h2>
+                    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                        <!-- Email Field -->
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input asp-for="Input.Email" type="email" id="email" placeholder="Your Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+
+                        <!-- Password Field -->
+                        <div class="form-group">
+                            <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                            <input asp-for="Input.Password" type="password" id="password" placeholder="Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+
+                        <!-- Confirm Password Field -->
+                        <div class="form-group">
+                            <label for="confirm-password"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input asp-for="Input.ConfirmPassword" type="password" id="confirm-password" placeholder="Confirm Password" class="form-control" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <!-- Role Selection Dropdown -->
+                        <div class="form-group" style="position: relative;">
+                            <label for="role" class="form-label" style="position: absolute; top: -10px; left: 10px; font-size: 14px; color: #555;">Role</label>
+                            <select asp-for="Input.Role" id="role" class="form-control" style="padding: 8px 12px;">
+                                <option value="" disabled selected hidden>Choose your role</option>
+                                <option value="Customer">Customer</option>
+                                <option value="Employer">Employer</option>
+                            </select>
+                            <span asp-validation-for="Input.Role" class="text-danger"></span>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-group form-button">
+                            <button id="registerSubmit" type="submit" class="form-submit">Register</button>
                         </div>
                     </form>
-                }
-            }
-        </section>
-    </div>
+                </div>
+
+                <div class="signup-image">
+                    <figure><img src="~/images/signup-image.jpg" alt="sign up image"></figure>
+                    <a href="@Url.Page("/Account/Login")" class="signup-image-link">I am already a member</a>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
+
+<!-- Include JS files -->
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/js/main.js"></script>
+</body>
 
 

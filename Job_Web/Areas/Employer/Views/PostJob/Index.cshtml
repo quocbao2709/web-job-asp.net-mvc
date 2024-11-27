@@ -1,0 +1,36 @@
+@model IEnumerable<Job_Web.Models.Job>
+
+@{
+    ViewData["Title"] = "Your Jobs";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Salary</th>
+        <th>Posted Date</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var job in Model)
+    {
+        <tr>
+            <td>@job.Title</td>
+            <td>@job.Description</td>
+            <td>@job.Location</td>
+            <td>@job.Salary</td>
+            <td>@job.PostedDate</td>
+            <td>
+                <a href="@Url.Action("Edit", "PostJob", new { id = job.Id })">Edit</a> |
+                <a href="@Url.Action("Delete", "PostJob", new { id = job.Id })">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

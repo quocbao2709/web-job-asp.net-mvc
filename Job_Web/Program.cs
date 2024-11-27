@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Job_Web.Data;
+using Job_Web.Models;
 using Job_Web.Utility;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
@@ -16,6 +17,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
 }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
