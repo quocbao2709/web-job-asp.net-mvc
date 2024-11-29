@@ -132,6 +132,14 @@ namespace Job_Web.Areas.Identity.Pages.Account
                 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                // Thiết lập trạng thái phê duyệt dựa trên vai trò
+                if (Input.Role == "Employer")
+                {
+                    if (user is ApplicationUser applicationUser)
+                    {
+                        applicationUser.IsApproved = false; // Employer cần phê duyệt
+                    }
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -157,8 +165,18 @@ namespace Job_Web.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        // Nếu tài khoản là Employer, thông báo chờ duyệt
+                        if (Input.Role == "Employer")
+                        {
+                            ModelState.AddModelError(string.Empty, "Tài khoản của bạn đang chờ được Admin duyệt.");
+                            return Page();
+                        }
+                        else
+                        {
+                            // Nếu là Customer, tự động đăng nhập ngay
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);  // Chuyển hướng tới trang chủ hoặc trang yêu cầu
+                        }
                     }
                 }
                 foreach (var error in result.Errors)

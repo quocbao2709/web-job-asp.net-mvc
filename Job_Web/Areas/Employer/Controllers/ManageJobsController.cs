@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Job_Web.Data;  // Thay thế với namespace thực tế của bạn
 using Job_Web.Models;  // Thay thế với namespace thực tế của bạn
 
-namespace ProjectNamespace.Areas.Employer.Controllers
+namespace Job_Web.Areas.Employer.Controllers
 {
     [Area("Employer")]
     [Authorize(Roles = "Employer")]

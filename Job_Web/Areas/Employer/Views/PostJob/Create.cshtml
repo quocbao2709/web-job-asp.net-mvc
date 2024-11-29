@@ -1,16 +1,12 @@
 @model Job_Web.Models.Job
 
-@{
-    ViewData["Title"] = "Create Job";
-}
-
 <h1>@ViewData["Title"]</h1>
 
 <form method="post" class="form-horizontal">
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <span asp-validation-for="Title" class="text-danger"></span>  <!-- Hiển thị lỗi nếu có -->
     </div>
 
     <div class="form-group">
@@ -33,3 +29,7 @@
 
     <button type="submit" class="btn btn-primary">Post Job</button>
 </form>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}

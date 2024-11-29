@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Job_Web.Data;  
 using Job_Web.Models; 
 
-namespace YourNamespace.Areas.Employer.Controllers
+namespace Job_Web.Areas.Employer.Controllers
 {
     [Area("Employer")]
     [Authorize(Roles = "Employer")]
@@ -34,7 +34,8 @@ namespace YourNamespace.Areas.Employer.Controllers
             if (ModelState.IsValid)
             {
                 job.PostedDate = DateTime.Now;  // Đặt ngày đăng công việc
-                job.EmployerId = User.Identity.Name;  // Đảm bảo EmployerId được gán đúng
+                var user = await _userManager.GetUserAsync(User);  // Lấy user hiện tại
+                job.EmployerId = user?.Id;  // Gán EmployerId cho công việc
                 _context.Add(job);  // Thêm công việc vào cơ sở dữ liệu
                 await _context.SaveChangesAsync();  // Lưu công việc vào cơ sở dữ liệu
                 return RedirectToAction(nameof(Index));  // Chuyển hướng về trang danh sách công việc

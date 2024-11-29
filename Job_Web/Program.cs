@@ -16,6 +16,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
+    // Cấu hình yêu cầu mật khẩu
+    options.Password.RequireDigit = false; // Không yêu cầu số
+    options.Password.RequiredLength = 6;   // Độ dài tối thiểu là 6 ký tự
+    options.Password.RequireNonAlphanumeric = false; // Không yêu cầu ký tự đặc biệt
+    options.Password.RequireUppercase = false; // Không yêu cầu chữ in hoa
+    options.Password.RequireLowercase = false; // Không yêu cầu chữ thường
 }).AddEntityFrameworkStores<ApplicationDBContext>().AddDefaultTokenProviders();
 
 
@@ -53,5 +59,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 app.Run();

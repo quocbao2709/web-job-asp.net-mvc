@@ -1,0 +1,32 @@
+@model IEnumerable<Job_Web.Models.ApplicationUser>
+
+<h1>Duyệt tài khoản Employer</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Email</th>
+        <th>Ngày tạo</th>
+        <th>Thao tác</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var employer in Model)
+    {
+        <tr>
+            <td>@employer.Email</td>
+            
+            <td>
+                <form asp-action="Approve" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="@employer.Id" />
+                    <button type="submit" class="btn btn-success">Chấp nhận</button>
+                </form>
+                <form asp-action="Reject" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
+                    <input type="hidden" name="userId" value="@employer.Id" />
+                    <button type="submit" class="btn btn-danger">Từ chối</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
