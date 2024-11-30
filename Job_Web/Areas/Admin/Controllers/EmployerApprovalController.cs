@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Job_Web.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    [Authorize(Roles = "Admin")]
+    //[Area("Admin")]
+    //[Authorize(Roles = "Admin")]
     public class EmployerApprovalController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
