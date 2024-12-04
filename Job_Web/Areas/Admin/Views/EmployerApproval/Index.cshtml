@@ -6,7 +6,9 @@
     <thead>
     <tr>
         <th>Email</th>
-        <th>Ngày tạo</th>
+        <th>Tên công ty</th>
+        <th>Địa chỉ</th>
+        <th>Thành phố</th>
         <th>Thao tác</th>
     </tr>
     </thead>
@@ -15,9 +17,11 @@
     {
         <tr>
             <td>@employer.Email</td>
-            
+            <td>@employer.CompanyName</td>
+            <td>@employer.Adress</td>
+            <td>@employer.City</td>
             <td>
-                <form asp-action="Approve" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
+                <form asp-action="ApproveEmployer" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
                     <input type="hidden" name="userId" value="@employer.Id" />
                     <button type="submit" class="btn btn-success">Chấp nhận</button>
                 </form>

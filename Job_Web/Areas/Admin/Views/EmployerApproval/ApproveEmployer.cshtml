@@ -1,0 +1,19 @@
+@model Job_Web.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Approve Employer";
+}
+
+<h1>Approve Employer</h1>
+
+<form method="post">
+    <div>
+        <h3>Are you sure you want to approve this employer?</h3>
+        <p><strong>Username:</strong> @Model.UserName</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+
+        <button type="submit">Approve</button>
+        <a href="@Url.Action("Index", "EmployerApproval", new { area = "Admin" })">Cancel</a>
+    </div>
+</form>

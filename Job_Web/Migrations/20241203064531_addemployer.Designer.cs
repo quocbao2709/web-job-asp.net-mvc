@@ -4,6 +4,7 @@ using Job_Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Job_Web.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20241203064531_addemployer")]
+    partial class addemployer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,6 +53,32 @@ namespace Job_Web.Migrations
                     b.ToTable("Applications");
                 });
 
+            modelBuilder.Entity("Job_Web.Models.Employer", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employers");
+                });
+
             modelBuilder.Entity("Job_Web.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -65,9 +94,6 @@ namespace Job_Web.Migrations
                     b.Property<string>("EmployerId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("JobCategoryId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -87,59 +113,7 @@ namespace Job_Web.Migrations
 
                     b.HasIndex("EmployerId");
 
-                    b.HasIndex("JobCategoryId");
-
                     b.ToTable("Jobs");
-                });
-
-            modelBuilder.Entity("Job_Web.Models.JobCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Profession")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("JobCategories");
-                });
-
-            modelBuilder.Entity("Job_Web.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRead")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -393,32 +367,13 @@ namespace Job_Web.Migrations
 
             modelBuilder.Entity("Job_Web.Models.Job", b =>
                 {
-                    b.HasOne("Job_Web.Models.ApplicationUser", "Employer")
-                        .WithMany()
-                        .HasForeignKey("EmployerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Job_Web.Models.JobCategory", "JobCategory")
+                    b.HasOne("Job_Web.Models.Employer", "Employer")
                         .WithMany("Jobs")
-                        .HasForeignKey("JobCategoryId")
+                        .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Employer");
-
-                    b.Navigation("JobCategory");
-                });
-
-            modelBuilder.Entity("Job_Web.Models.Notification", b =>
-                {
-                    b.HasOne("Job_Web.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -472,14 +427,14 @@ namespace Job_Web.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Job_Web.Models.Employer", b =>
+                {
+                    b.Navigation("Jobs");
+                });
+
             modelBuilder.Entity("Job_Web.Models.Job", b =>
                 {
                     b.Navigation("Applications");
-                });
-
-            modelBuilder.Entity("Job_Web.Models.JobCategory", b =>
-                {
-                    b.Navigation("Jobs");
                 });
 #pragma warning restore 612, 618
         }

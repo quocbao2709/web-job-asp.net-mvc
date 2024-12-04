@@ -104,6 +104,7 @@ namespace Job_Web.Areas.Identity.Pages.Account
             public string Name { get; set; }
             public string Address { get; set; }
             public string City { get; set; }
+            public string CompanyName { get; set; }
             [Required]
             [Display(Name = "Role")]
             public string Role { get; set; }
@@ -123,84 +124,85 @@ namespace Job_Web.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-{
-    returnUrl ??= Url.Content("~/");
-    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-    if (ModelState.IsValid)
-    {
-        // Tạo đối tượng user với các thuộc tính từ InputModel
-        var user = new ApplicationUser
         {
-            UserName = Input.Email,
-            Email = Input.Email,
-            Name = Input.Name,
-            
-            City = Input.City,
-            // Gán giá trị IsApproved theo vai trò
-            IsApproved = (Input.Role == "Employer") ? false : true  // Nếu là Employer, IsApproved = false, nếu là Customer thì là null
-        };
+            returnUrl ??= Url.Content("~/");
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-        // Cài đặt tên người dùng và email
-        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-        // Tạo người dùng trong hệ thống
-        var result = await _userManager.CreateAsync(user, Input.Password);
-
-        if (result.Succeeded)
-        {
-            _logger.LogInformation("User created a new account with password.");
-
-            // Gán vai trò cho người dùng
-            var role = Input.Role;
-            await _userManager.AddToRoleAsync(user, role);
-
-            // Xử lý xác thực email nếu cần
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                protocol: Request.Scheme);
-
-            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-            // Nếu yêu cầu xác nhận tài khoản, chuyển đến trang xác nhận
-            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+            if (ModelState.IsValid)
             {
-                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-            }
-            else
-            {
-                // Nếu tài khoản là Employer, thông báo chờ duyệt
-                if (Input.Role == "Employer")
+                // Tạo đối tượng user với các thuộc tính từ InputModel
+                var user = new ApplicationUser
                 {
-                    ModelState.AddModelError(string.Empty, "Tài khoản của bạn đang chờ được Admin duyệt.");
-                    return Page();
-                }
-                else
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Name = Input.Name,
+                    CompanyName = Input.CompanyName,
+                    Adress = Input.Address,
+                    City = Input.City,
+                    // Gán giá trị IsApproved theo vai trò
+                    IsApproved = (Input.Role == "Employer") ? false : true  // Nếu là Employer, IsApproved = false, nếu là Customer thì là null
+                };
+
+                // Cài đặt tên người dùng và email
+                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+                // Tạo người dùng trong hệ thống
+                var result = await _userManager.CreateAsync(user, Input.Password);
+
+                if (result.Succeeded)
                 {
-                    // Nếu là Customer, tự động đăng nhập ngay
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);  // Chuyển hướng tới trang chủ hoặc trang yêu cầu
+                    _logger.LogInformation("User created a new account with password.");
+
+                    // Gán vai trò cho người dùng
+                    var role = Input.Role;
+                    await _userManager.AddToRoleAsync(user, role);
+
+                    // Xử lý xác thực email nếu cần
+                    var userId = await _userManager.GetUserIdAsync(user);
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    // Nếu yêu cầu xác nhận tài khoản, chuyển đến trang xác nhận
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
+                    }
+                    else
+                    {
+                        // Nếu tài khoản là Employer, thông báo chờ duyệt
+                        if (Input.Role == "Employer")
+                        {
+                            ModelState.AddModelError(string.Empty, "Tài khoản của bạn đang chờ được Admin duyệt.");
+                            return Page();
+                        }
+                        else
+                        {
+                            // Nếu là Customer, tự động đăng nhập ngay
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);  // Chuyển hướng tới trang chủ hoặc trang yêu cầu
+                        }
+                    }
+                }
+
+                // Nếu có lỗi, thêm lỗi vào ModelState
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-        }
 
-        // Nếu có lỗi, thêm lỗi vào ModelState
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(string.Empty, error.Description);
+            // Nếu có lỗi trong ModelState, hiển thị lại form đăng ký
+            return Page();
         }
-    }
-
-    // Nếu có lỗi trong ModelState, hiển thị lại form đăng ký
-    return Page();
-}
 
 
         private IdentityUser CreateUser()

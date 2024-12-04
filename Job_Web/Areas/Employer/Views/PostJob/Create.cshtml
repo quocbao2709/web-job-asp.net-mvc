@@ -20,12 +20,20 @@
         <input asp-for="Location" class="form-control" />
         <span asp-validation-for="Location" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <label asp-for="Salary" class="control-label"></label>
         <input asp-for="Salary" class="form-control" />
         <span asp-validation-for="Salary" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label for="JobCategoryId">Category</label>
+        <select id="JobCategoryId" name="JobCategoryId" class="form-control" asp-items="ViewBag.JobCategories">
+            <option value="">-- Select a Category --</option>
+        </select>
+        @Html.ValidationMessageFor(model => model.JobCategoryId)
+    </div>
+
 
     <button type="submit" class="btn btn-primary">Post Job</button>
 </form>

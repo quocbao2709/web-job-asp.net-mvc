@@ -21,8 +21,13 @@ public class Job
 
     public string EmployerId { get; set; } // ID nhà tuyển dụng (thực tế là ID của nhà tuyển dụng, không phải model)
 
-    public Employer Employer { get; set; } // Mối quan hệ giữa Job và Employer (một Job thuộc về một Employer)
+    public ApplicationUser Employer { get; set; } // Mối quan hệ giữa Job và Employer (một Job thuộc về một Employer)
 
     // Navigation property: Một Job có thể có nhiều Application
     public ICollection<Application> Applications { get; set; } // Mỗi Job có thể có nhiều đơn ứng tuyển (Application)
+    // Thuộc tính JobCategoryId (khóa ngoại)
+    public int JobCategoryId { get; set; }
+
+    // Navigation property đến JobCategory
+    public JobCategory JobCategory { get; set; }
 }

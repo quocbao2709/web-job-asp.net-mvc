@@ -39,6 +39,29 @@
                             <input asp-for="Input.ConfirmPassword" type="password" id="confirm-password" placeholder="Confirm Password" class="form-control" />
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                         </div>
+                        <!-- Additional Fields for Employer -->
+                        <div id="employerFields" style="display: none;">
+                            <!-- Company Name -->
+                            <div class="form-group">
+                                <label for="companyName"><i class="zmdi zmdi-home"></i></label>
+                                <input asp-for="Input.CompanyName" type="text" id="companyName" placeholder="Company Name" class="form-control" />
+                                <span asp-validation-for="Input.CompanyName" class="text-danger"></span>
+                            </div>
+                            
+                            <!-- Address -->
+                            <div class="form-group">
+                                <label for="address"><i class="zmdi zmdi-home"></i></label>
+                                <input asp-for="Input.Address" type="text" id="address" placeholder="Address" class="form-control" />
+                                <span asp-validation-for="Input.Address" class="text-danger"></span>
+                            </div>
+
+                            <!-- City -->
+                            <div class="form-group">
+                                <label for="city"><i class="zmdi zmdi-city"></i></label>
+                                <input asp-for="Input.City" type="text" id="city" placeholder="City" class="form-control" />
+                                <span asp-validation-for="Input.City" class="text-danger"></span>
+                            </div>
+                        </div>
 
                         <!-- Role Selection Dropdown -->
                         <div class="form-group" style="position: relative;">
@@ -51,6 +74,7 @@
                             </select>
                             <span asp-validation-for="Input.Role" class="text-danger"></span>
                         </div>
+                        
 
                         <!-- Submit Button -->
                         <div class="form-group form-button">
@@ -67,7 +91,16 @@
         </div>
     </section>
 </div>
-
+<script>
+    document.getElementById('role').addEventListener('change', function () {
+        const employerFields = document.getElementById('employerFields');
+        if (this.value === 'Employer') {
+            employerFields.style.display = 'block';
+        } else {
+            employerFields.style.display = 'none';
+        }
+    });
+</script>
 <!-- Include JS files -->
 <script src="~/vendor/jquery/jquery.min.js"></script>
 <script src="~/js/main.js"></script>

@@ -1,3 +1,4 @@
+using Job_Web.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Job_Web.Models;
@@ -12,9 +13,20 @@ public class ApplicationDBContext : IdentityDbContext
     
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<Job> Jobs { get; set; }
-    public DbSet<Employer> Employers { get; set; }
     public DbSet<Application> Applications { get; set; }
-    
+    public DbSet<JobCategory> JobCategories { get; set; }
+    public DbSet<Notification> Notifications { get; set; }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        // Cấu hình quan hệ giữa Job và JobCategory
+        modelBuilder.Entity<Job>()
+            .HasOne(j => j.Employer)
+            .WithMany()  // Một nhà tuyển dụng có thể có nhiều công việc
+            .HasForeignKey(j => j.EmployerId)
+            .OnDelete(DeleteBehavior.NoAction);   // Tránh việc xóa cascade từ JobCategory
+    }
     
 }
 
