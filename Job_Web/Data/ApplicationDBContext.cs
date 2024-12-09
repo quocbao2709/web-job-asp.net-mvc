@@ -2,10 +2,11 @@ using Job_Web.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Job_Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Job_Web.Data;
 
-public class ApplicationDBContext : IdentityDbContext
+public class ApplicationDBContext : IdentityDbContext<IdentityUser>
 {
     public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
     {
@@ -25,7 +26,7 @@ public class ApplicationDBContext : IdentityDbContext
             .HasOne(j => j.Employer)
             .WithMany()  // Một nhà tuyển dụng có thể có nhiều công việc
             .HasForeignKey(j => j.EmployerId)
-            .OnDelete(DeleteBehavior.NoAction);   // Tránh việc xóa cascade từ JobCategory
+            .OnDelete(DeleteBehavior.Restrict);   // Tránh việc xóa cascade từ JobCategory
     }
     
 }

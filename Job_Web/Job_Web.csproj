@@ -25,6 +25,7 @@
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Views\Home\Privacy.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Views\_ViewImports.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Views\_ViewStart.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Employer\Views\Applicants\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,41 +1,63 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Job_Web.Models.Job
 
-<h1>@ViewData["Title"]</h1>
+<h1>Create a New Job</h1>
 
-<form method="post" class="form-horizontal">
-    <div class="form-group">
-        <label asp-for="Title" class="control-label"></label>
+<form asp-area="Employer" asp-controller="PostJob" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Tiêu đề công việc</label>
         <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>  <!-- Hiển thị lỗi nếu có -->
+        <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control"></textarea>
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Mô tả công việc</label>
+        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Location" class="control-label"></label>
+    <div class="mb-3">
+        <label asp-for="Location" class="form-label">Vị trí</label>
         <input asp-for="Location" class="form-control" />
         <span asp-validation-for="Location" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Salary" class="control-label"></label>
-        <input asp-for="Salary" class="form-control" />
+
+    <div class="mb-3">
+        <label asp-for="Salary" class="form-label">Mức lương</label>
+        <input asp-for="Salary" type="number" class="form-control" />
         <span asp-validation-for="Salary" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="JobCategoryId">Category</label>
-        <select id="JobCategoryId" name="JobCategoryId" class="form-control" asp-items="ViewBag.JobCategories">
-            <option value="">-- Select a Category --</option>
+        <label asp-for="JobCategoryId" class="control-label">Job Category</label>
+        <select asp-for="JobCategoryId" asp-items="ViewBag.JobCategories" class="form-control">
+            <option value="">Select a category</option>
         </select>
-        @Html.ValidationMessageFor(model => model.JobCategoryId)
+        <span asp-validation-for="JobCategoryId" class="text-danger"></span>
     </div>
+    <input type="hidden" name="JobCategory" value="@ViewBag.SelectedJobCategory" />
 
+    <!--<div class="form-group">
+        <label>EmployerId</label>
+        <input type="text" class="form-control" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" readonly />
+    </div>-->
 
-    <button type="submit" class="btn btn-primary">Post Job</button>
+    <!-- Trường ẩn để gửi EmployerId khi submit -->
+    <input type="hidden" asp-for="EmployerId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+    <!--<div class="form-group">
+        <label asp-for="EmployerId" class="control-label">Nhà tuyển dụng</label>
+        <input type="text" asp-for="EmployerId" class="form-control" readonly value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+    </div>-->
+
+    <!--<div class="form-group">
+        <label asp-for="Employer.UserName" class="control-label">Tên nhà tuyển dụng</label>
+        <input asp-for="Employer.UserName" class="form-control" value="@User.Identity.Name" readonly />
+        <span asp-validation-for="Employer.UserName" class="text-danger"></span>
+    </div>-->
+
+    <button type="submit" class="btn btn-primary">Đăng công việc</button>
+    <a asp-area="Employer" asp-controller="PostJob" asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
 
 @section Scripts {

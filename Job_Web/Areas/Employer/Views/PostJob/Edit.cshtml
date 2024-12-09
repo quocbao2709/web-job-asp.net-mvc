@@ -1,37 +1,52 @@
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model Job_Web.Models.Job
+@{
+ViewData["Title"] = "Edit Job";
+}
 
 <h1>Edit Job</h1>
 
-<form method="post">
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
     <div class="form-group">
         <label asp-for="Title" class="control-label"></label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <label asp-for="Location" class="control-label"></label>
         <input asp-for="Location" class="form-control" />
         <span asp-validation-for="Location" class="text-danger"></span>
     </div>
-
     <div class="form-group">
         <label asp-for="Salary" class="control-label"></label>
         <input asp-for="Salary" class="form-control" />
         <span asp-validation-for="Salary" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label>Job Category</label>
-        <select asp-for="JobCategoryId" class="form-control" asp-items="ViewBag.JobCategories">
-            <option value="">-- Select Job Category --</option>
-        </select>
+        <label asp-for="JobCategoryId" class="control-label">Category</label>
+        <select asp-for="JobCategoryId" asp-items="ViewBag.JobCategories" class="form-control"></select>
+        <span asp-validation-for="JobCategoryId" class="text-danger"></span>
     </div>
+    <input type="hidden" name="JobCategory" value="@ViewBag.SelectedJobCategory" />
 
-    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <!--<div class="form-group">
+        <label>EmployerId</label>
+        <input type="text" class="form-control" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" readonly />
+    </div>-->
+
+    <!-- Trường ẩn để gửi EmployerId khi submit -->
+    <input type="hidden" asp-for="EmployerId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+    <!--<div class="form-group">
+        <label asp-for="EmployerId" class="control-label">Nhà tuyển dụng</label>
+        <input type="text" asp-for="EmployerId" class="form-control" readonly value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+    </div>-->
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

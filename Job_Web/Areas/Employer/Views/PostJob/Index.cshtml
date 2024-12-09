@@ -5,16 +5,18 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<div class="d-flex justify-content-end mb-3">
+    <a asp-area="Employer" asp-controller="PostJob" asp-action="Create" class="btn btn-success">Tạo Công Việc Mới</a>
+</div>
 
 <table class="table">
     <thead>
     <tr>
         <th>Title</th>
-        <th>Description</th>
+        <th>Category</th>
         <th>Location</th>
         <th>Salary</th>
         <th>Posted Date</th>
-        <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -22,15 +24,21 @@
     {
         <tr>
             <td>@job.Title</td>
-            <td>@job.Description</td>
+            <td>@job.JobCategory.Profession</td>
             <td>@job.Location</td>
             <td>@job.Salary</td>
-            <td>@job.PostedDate</td>
+            <td>@job.PostedDate.ToShortDateString()</td>
             <td>
-                <a href="@Url.Action("Edit", "PostJob", new { id = job.Id })">Edit</a> |
-                <a href="@Url.Action("Delete", "PostJob", new { id = job.Id })">Delete</a>
+                <!-- Nút Sửa -->
+                <a asp-area="Employer" asp-controller="PostJob" asp-action="Edit" asp-route-id="@job.Id" class="btn btn-primary btn-sm">Sửa</a>
+
+                <!-- Nút Xoá -->
+                <form asp-area="Employer" asp-controller="PostJob" asp-action="Delete" asp-route-id="@job.Id" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa công việc này?');">Xoá</button>
+                </form>
             </td>
         </tr>
+
     }
     </tbody>
 </table>
