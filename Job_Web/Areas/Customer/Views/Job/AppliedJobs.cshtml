@@ -1,0 +1,52 @@
+@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"] = "My Applied Jobs";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Job Title</th>
+        <th>Category</th>
+        <th>Location</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var job in Model)
+    {
+        <tr>
+            <td>@job.JobTitle</td>
+            <td>@job.Profession</td>
+            <td>@job.Location</td>
+            <td>@job.Status</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<style>
+    .table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .table td {
+            color: #555;
+        }
+</style>

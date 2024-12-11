@@ -29,10 +29,17 @@
                         <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="About">Show my information</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Customer" asp-controller="Job" asp-action="GetListJob">Show Job</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Customer" asp-controller="Job" asp-action="AppliedJobs">Manage My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="Employer" asp-controller="PostJob" asp-action="Index">Manage My Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Employer" asp-controller="Applicants" asp-action="Index">Manage Applicants</a>
+                        <a class="nav-link text-dark" asp-area="Employer" asp-controller="PostJob" asp-action="GetApplicants">Manage Applicants</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="Admin" asp-controller="EmployerApproval" asp-action="Index">Admin Manage</a>

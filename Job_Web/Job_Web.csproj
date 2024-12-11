@@ -26,12 +26,18 @@
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Views\_ViewImports.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Views\_ViewStart.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Employer\Views\Applicants\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Profile\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Profile\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="wwwroot\fonts\.DS_Store" />
       <Content Include="wwwroot\scss\.DS_Store" />
       <Content Include="wwwroot\vendor\.DS_Store" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\uploads\" />
     </ItemGroup>
 
 </Project>

@@ -230,4 +230,18 @@ public class PostJobController : Controller
         var jobCategories = _context.JobCategories.ToList();
         ViewBag.JobCategories = new SelectList(jobCategories, "Id", "Profession");
     }
+    public async Task<IActionResult> GetApplicants()
+    {
+        var employerId = _userManager.GetUserId(User);
+        var jobs = await _context.Jobs
+            .Where(j => j.EmployerId == employerId) 
+            .Select(j => j.Id) 
+            .ToListAsync(); 
+        var applications = await _context.Applications
+            .Where(a => jobs.Contains(a.JobId)) 
+            .Include(a => a.Job) 
+            .Include(a => a.Customer) 
+            .ToListAsync(); 
+        return View(applications);
+    }
 }

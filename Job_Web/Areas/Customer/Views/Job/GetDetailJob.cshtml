@@ -1,0 +1,70 @@
+@model Job_Web.Models.Job
+
+@{
+    ViewData["Title"] = "Job Detail";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="job-detail">
+    <h2>@Model.Title</h2>
+    <p><strong>Category:</strong> @Model.JobCategory.Profession</p>
+    <p><strong>Location:</strong> @Model.Location</p>
+    <p><strong>Salary:</strong> @Model.Salary</p>
+    <p><strong>Posted Date:</strong> @Model.PostedDate.ToShortDateString()</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+</div>
+
+<!-- Thêm nút Apply và nút Back to Job Listings -->
+<div class="button-group">
+    <form method="post" action="@Url.Action("ApplyForJob", "Job")">
+        <input type="hidden" name="jobId" value="@Model.Id" />
+        <button type="submit" class="btn btn-success">Apply</button>
+    </form>
+    <a href="@Url.Action("GetListJob", "Job")" class="btn btn-primary">Back to Job Listings</a>
+</div>
+
+<style>
+    .job-detail {
+        margin: 20px;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+    }
+
+        .job-detail h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .job-detail p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+    .button-group {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-primary, .btn-success {
+        display: inline-block;
+        padding: 10px 20px;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+    }
+
+        .btn-primary:hover, .btn-success:hover {
+            background-color: #0056b3;
+        }
+</style>

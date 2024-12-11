@@ -1,0 +1,75 @@
+@model Job_Web.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Chỉnh sửa thông tin";
+}
+
+<h2>Chỉnh sửa thông tin người dùng</h2>
+
+<form asp-action="Edit" asp-controller="Information" method="post" enctype="multipart/form-data">
+    <!-- Các input khác -->
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Adress" class="control-label">Address</label>
+        <input asp-for="Adress" class="form-control" />
+        <span asp-validation-for="Adress" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="City" class="control-label">City</label>
+        <input asp-for="City" class="form-control" />
+        <span asp-validation-for="City" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CompanyName" class="control-label">Company Name</label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Education" class="control-label">Education</label>
+        <input asp-for="Education" class="form-control" />
+        <span asp-validation-for="Education" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="WorkExperience" class="control-label">Work Experience</label>
+        <input asp-for="WorkExperience" class="form-control" />
+        <span asp-validation-for="WorkExperience" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Skills" class="control-label">Skills</label>
+        <input asp-for="Skills" class="form-control" />
+        <span asp-validation-for="Skills" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
+        <input asp-for="DateOfBirth" class="form-control" type="date" />
+        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="resumeFile">Upload CV</label>
+        <input id="resumeFile" name="resumeFile" type="file" class="form-control" />
+        <span asp-validation-for="ResumeFilePath" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+    <a asp-action="Show" class="btn btn-secondary">Hủy</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

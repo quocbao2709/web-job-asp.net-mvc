@@ -11,5 +11,10 @@ public class ApplicationUser:IdentityUser
     public string? CompanyName { get; set; }
     [Required]
     public bool IsApproved { get; set; }
+    public string? Education { get; set; } // Trình độ học vấn
+    public string? WorkExperience { get; set; } // Kinh nghiệm làm việc
+    public string? ResumeFilePath { get; set; } // Đường dẫn đến file hồ sơ xin việc
+    public string? Skills { get; set; } // Các kỹ năng chuyên môn
+    public DateTime? DateOfBirth { get; set; } // Ngày sinh (nếu cần thiết)
     
 }

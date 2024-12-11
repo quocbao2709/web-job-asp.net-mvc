@@ -1,0 +1,54 @@
+@model IEnumerable<Job_Web.Models.Job>
+
+@{
+    ViewData["Title"] = "Job Listings";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="job-container">
+    @foreach (var job in Model)
+    {
+        <div class="job-box" onclick="window.location.href='@Url.Action("GetDetailJob", "Job", new { id = job.Id })'">
+            <h3>@job.Title</h3>
+            <p><strong>Category:</strong> @job.JobCategory.Profession</p>
+            <p><strong>Posted Date:</strong> @job.PostedDate.ToShortDateString()</p>
+        </div>
+    }
+</div>
+
+<style>
+    .job-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start; /* Canh lề trái */
+        padding: 20px;
+    }
+
+    .job-box {
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 15px;
+        width: calc(25% - 20px); /* 25% của container để có 4 cột (kèm khoảng cách) */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .job-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .job-box h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .job-box p {
+            margin: 5px 0;
+            color: #555;
+        }
+</style>
