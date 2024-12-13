@@ -1,54 +1,109 @@
 @model IEnumerable<Job_Web.Models.Job>
 
 @{
-    ViewData["Title"] = "Job Listings";
+ViewData["Title"] = "Job Listings";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="job-container">
-    @foreach (var job in Model)
-    {
-        <div class="job-box" onclick="window.location.href='@Url.Action("GetDetailJob", "Job", new { id = job.Id })'">
-            <h3>@job.Title</h3>
-            <p><strong>Category:</strong> @job.JobCategory.Profession</p>
-            <p><strong>Posted Date:</strong> @job.PostedDate.ToShortDateString()</p>
+
+<section class="job-listings">
+    <div class="row">
+        @foreach (var job in Model)
+        {
+        <div class="col-md-4 mb-4">
+            <div class="job-card">
+                <div class="company-logo mb-3">
+                    <img src="@job." alt="@job. Logo" class="img-fluid">
+                </div>
+                <h3 class="job-title">@job.Title</h3>
+                <p class="company-name">@job.Title</p>
+                <p class="location"><i class="bi bi-geo-alt"></i> @job.Location</p>
+                <div class="salary mb-3">@job.Salary</div>
+                <button class="btn btn-outline-primary w-100" onclick="window.location.href='@Url.Action("GetDetailJob", "Job", new { id = job.Id })'">Apply Now</button>
+            </div>
         </div>
-    }
+        }
+    </div>
+</section>
+@foreach (var job in Model)
+{
+<div class="job-card">
+    <img src="@job." alt="Company Logo" class="company-logo">
+    <div class="job-details">
+        <h3 class="job-title">@job.Title</h3>
+        <p class="company-name">@job.Title</p>
+        <p class="location">@job.Location</p>
+        <p class="salary">@job.Salary</p>
+        <p class="post-date">Đăng @job.PostedDate.ToShortDateString()</p>
+    </div>
+    <button class="btn-save-job"><i class="bi bi-heart"></i> Lưu</button>
 </div>
+}
+
 
 <style>
-    .job-container {
+    .job-listing {
         display: flex;
         flex-wrap: wrap;
         gap: 20px;
-        justify-content: flex-start; /* Canh lề trái */
+        justify-content: flex-start;
         padding: 20px;
     }
 
-    .job-box {
-        background-color: #f9f9f9;
+    .job-card {
+        background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 8px;
         padding: 15px;
-        width: calc(25% - 20px); /* 25% của container để có 4 cột (kèm khoảng cách) */
+        width: calc(33% - 20px); /* Hiển thị 3 cột */
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
+        position: relative;
         transition: transform 0.2s, box-shadow 0.2s;
     }
 
-        .job-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
+    .job-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
 
-        .job-box h3 {
-            margin-top: 0;
-            color: #333;
-        }
+    .company-logo {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 10px;
+    }
 
-        .job-box p {
-            margin: 5px 0;
-            color: #555;
-        }
+    .job-details {
+        margin-bottom: 15px;
+    }
+
+    .job-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 5px 0;
+    }
+
+    .company-name, .location, .salary, .job-category, .post-date {
+        font-size: 14px;
+        margin: 2px 0;
+        color: #555;
+    }
+
+    .btn-save-job {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: #007bff;
+        cursor: pointer;
+        font-size: 16px;
+        transition: color 0.2s;
+    }
+
+    .btn-save-job:hover {
+        color: #0056b3;
+    }
+
 </style>

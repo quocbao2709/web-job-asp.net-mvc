@@ -165,5 +165,64 @@ public class InformationController : Controller
         _logger.LogInformation("Thông tin người dùng đã được cập nhật thành công.");
         return RedirectToAction(nameof(Show)); // Quay lại trang hiển thị thông tin sau khi cập nhật thành công
     }
+    [HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteResume()
+{
+    // Lấy ID người dùng từ UserManager
+    var customerId = _userManager.GetUserId(User);
+    if (string.IsNullOrEmpty(customerId))
+    {
+        _logger.LogWarning("Không tìm thấy ID người dùng.");
+        return Unauthorized("Bạn cần đăng nhập để truy cập.");
+    }
+
+    // Lấy thông tin người dùng từ UserManager
+    var userDetails = await _userManager.FindByIdAsync(customerId);
+    if (userDetails == null)
+    {
+        _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
+        return NotFound("Không tìm thấy thông tin người dùng.");
+    }
+
+    // Chuyển sang ApplicationUser
+    var applicationUser = userDetails as ApplicationUser;
+    if (applicationUser == null)
+    {
+        _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
+        return NotFound("Không thể ép kiểu thành ApplicationUser.");
+    }
+
+    // Kiểm tra nếu người dùng có file hồ sơ và xóa nó
+    if (!string.IsNullOrEmpty(applicationUser.ResumeFilePath))
+    {
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", applicationUser.ResumeFilePath.TrimStart('/'));
+
+        if (System.IO.File.Exists(filePath))
+        {
+            System.IO.File.Delete(filePath);
+            _logger.LogInformation("Hồ sơ đã bị xóa.");
+        }
+
+        // Cập nhật lại đường dẫn file trong cơ sở dữ liệu
+        applicationUser.ResumeFilePath = null;
+
+        // Lưu thay đổi qua UserManager
+        var result = await _userManager.UpdateAsync(applicationUser);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return View("Edit", applicationUser); // Nếu có lỗi, vẫn ở lại trang Edit
+        }
+
+        _logger.LogInformation("Thông tin người dùng đã được cập nhật sau khi xóa hồ sơ.");
+    }
+
+    // Sau khi xóa, chuyển hướng về trang Show để cập nhật lại giao diện
+    return RedirectToAction(nameof(Show));
+}
 
 }

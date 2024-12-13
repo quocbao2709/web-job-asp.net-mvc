@@ -14,69 +14,47 @@
                 <dt class="col-sm-4">ID người dùng:</dt>
                 <dd class="col-sm-8">@Model.Id</dd>
 
-                @if (!string.IsNullOrEmpty(Model.Name))
-                {
-                    <dt class="col-sm-4">Name:</dt>
-                    <dd class="col-sm-8">@Model.Name</dd>
-                }
+                <dt class="col-sm-4">Name:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.Name) ? Model.Name : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.Email))
-                {
-                    <dt class="col-sm-4">Email:</dt>
-                    <dd class="col-sm-8">@Model.Email</dd>
-                }
+                <dt class="col-sm-4">Email:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.Email) ? Model.Email : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.Adress))
-                {
-                    <dt class="col-sm-4">Address:</dt>
-                    <dd class="col-sm-8">@Model.Adress</dd>
-                }
+                <dt class="col-sm-4">Address:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.Adress) ? Model.Adress : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.City))
-                {
-                    <dt class="col-sm-4">City:</dt>
-                    <dd class="col-sm-8">@Model.City</dd>
-                }
+                <dt class="col-sm-4">City:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.City) ? Model.City : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.CompanyName))
-                {
-                    <dt class="col-sm-4">Company Name:</dt>
-                    <dd class="col-sm-8">@Model.CompanyName</dd>
-                }
+                <dt class="col-sm-4">Company Name:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.CompanyName) ? Model.CompanyName : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.Education))
-                {
-                    <dt class="col-sm-4">Education:</dt>
-                    <dd class="col-sm-8">@Model.Education</dd>
-                }
+                <dt class="col-sm-4">Education:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.Education) ? Model.Education : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.WorkExperience))
-                {
-                    <dt class="col-sm-4">Work Experience:</dt>
-                    <dd class="col-sm-8">@Model.WorkExperience</dd>
-                }
+                <dt class="col-sm-4">Work Experience:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.WorkExperience) ? Model.WorkExperience : "Chưa được cập nhật")</dd>
 
-                @if (!string.IsNullOrEmpty(Model.Skills))
-                {
-                    <dt class="col-sm-4">Skills:</dt>
-                    <dd class="col-sm-8">@Model.Skills</dd>
-                }
+                <dt class="col-sm-4">Skills:</dt>
+                <dd class="col-sm-8">@(!string.IsNullOrEmpty(Model.Skills) ? Model.Skills : "Chưa được cập nhật")</dd>
 
-                @if (Model.DateOfBirth.HasValue)
-                {
-                    <dt class="col-sm-4">Date of Birth:</dt>
-                    <dd class="col-sm-8">@Model.DateOfBirth.Value.ToString("dd/MM/yyyy")</dd>
-                }
+                <dt class="col-sm-4">Date of Birth:</dt>
+                <dd class="col-sm-8">
+                    @(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("dd/MM/yyyy") : "Chưa được cập nhật")
+                </dd>
 
-                
-
-                @if (!string.IsNullOrEmpty(Model.ResumeFilePath))
-                {
-                    <dt class="col-sm-4">Resume:</dt>
-                    <dd class="col-sm-8">
-                        <a href="@Url.Content(Model.ResumeFilePath)" target="_blank" class="btn btn-link">Tải hồ sơ</a>
-                    </dd>
-                }
+                <dt class="col-sm-4">File CV:</dt>
+                <dd class="col-sm-8">
+                    @if (!string.IsNullOrEmpty(Model.ResumeFilePath))
+                    {
+                        var fileName = System.IO.Path.GetFileName(Model.ResumeFilePath);
+                        <a href="@Url.Content(Model.ResumeFilePath)" download="@fileName" class="btn btn-link">@fileName</a>
+                    }
+                    else
+                    {
+                        <span>Chưa được cập nhật</span>
+                    }
+                </dd>
             </dl>
         </div>
         <div class="card-footer text-center">

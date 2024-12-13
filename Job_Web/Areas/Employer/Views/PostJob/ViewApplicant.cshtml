@@ -1,0 +1,103 @@
+@{
+    var application = ViewBag.Application as Job_Web.Models.Application;
+    var applicationUser = ViewBag.ApplicationUser as Job_Web.Models.ApplicationUser;
+}
+
+<body>
+    <div class="candidate-info-container">
+        <div class="container">
+            <h1>Thông tin ứng viên</h1>
+
+            <div class="personal-info">
+                <h3>Thông tin người ứng tuyển</h3>
+                <p><span class="label">Tên người ứng tuyển:</span><span class="info">@applicationUser.UserName</span></p>
+                <p><span class="label">Email:</span><span class="info">@applicationUser.Email</span></p>
+                <p><span class="label">Số điện thoại:</span><span class="info">@applicationUser.PhoneNumber</span></p>
+                <p><span class="label">Địa chỉ:</span><span class="info">@applicationUser.Adress</span></p>
+                <p><span class="label">Thành phố:</span><span class="info">@applicationUser.City</span></p>
+                <p><span class="label">Công ty:</span><span class="info">@applicationUser.CompanyName</span></p>
+                <p><span class="label">Học vấn:</span><span class="info">@applicationUser.Education</span></p>
+                <p><span class="label">Kinh nghiệm làm việc:</span><span class="info">@applicationUser.WorkExperience</span></p>
+                <p><span class="label">Kỹ năng:</span><span class="info">@applicationUser.Skills</span></p>
+                <p><span class="label">Ngày sinh:</span><span class="info">@applicationUser.DateOfBirth</span></p>
+                <p>
+                    <span class="label">Đường dẫn CV:</span>
+                    <span class="info">
+                        @{
+                            var fileName = System.IO.Path.GetFileName(applicationUser.ResumeFilePath);
+                        }
+                        <a href="@Url.Content(applicationUser.ResumeFilePath)" download="@fileName" class="btn btn-link">
+                            Tải xuống CV
+                        </a>
+                    </span>
+                </p>
+            </div>
+
+            <div class="job-section">
+                <h3>Thông tin công việc</h3>
+                <p><span class="label">Tiêu đề công việc:</span><span class="info">@application.Job.Title</span></p>
+                <p><span class="label">Mô tả công việc:</span><span class="info">@application.Job.Description</span></p>
+            </div>
+
+            <div class="status-section">
+                <h3>Trạng thái đơn ứng tuyển</h3>
+                <p><span class="label">Trạng thái:</span><span class="status">@application.Status</span></p>
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    .candidate-info-container body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        color: #333;
+    }
+
+    .candidate-info-container .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .candidate-info-container h1 {
+        text-align: center;
+        color: #444;
+    }
+
+    .candidate-info-container h3 {
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .candidate-info-container p {
+        margin: 10px 0;
+        line-height: 1.6;
+    }
+
+    .candidate-info-container .label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .candidate-info-container .info {
+        margin-left: 10px;
+        color: #777;
+    }
+
+    .candidate-info-container .job-section,
+    .candidate-info-container .status-section {
+        margin-top: 30px;
+    }
+
+    .candidate-info-container .status {
+        font-size: 16px;
+        font-weight: bold;
+        color: #0056b3;
+    }
+</style>

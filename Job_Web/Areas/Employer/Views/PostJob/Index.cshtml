@@ -1,27 +1,30 @@
 @model IEnumerable<Job_Web.Models.Job>
 
 @{
-    ViewData["Title"] = "Your Jobs";
+ViewData["Title"] = "Your Jobs";
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="d-flex justify-content-end mb-3">
-    <a asp-area="Employer" asp-controller="PostJob" asp-action="Create" class="btn btn-success">Tạo Công Việc Mới</a>
-</div>
+<div class="main-content">
+    <h1 class="page-title">@ViewData["Title"]</h1>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Category</th>
-        <th>Location</th>
-        <th>Salary</th>
-        <th>Posted Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var job in Model)
-    {
+    <div class="d-flex justify-content-end mb-3">
+        <a asp-area="Employer" asp-controller="PostJob" asp-action="Create" class="btn btn-success">Tạo Công Việc Mới</a>
+    </div>
+
+    <table class="table table-hover">
+        <thead class="table-header">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Salary</th>
+            <th>Posted Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var job in Model)
+        {
         <tr>
             <td>@job.Title</td>
             <td>@job.JobCategory.Profession</td>
@@ -38,7 +41,87 @@
                 </form>
             </td>
         </tr>
-
+        }
+        </tbody>
+    </table>
+</div>
+<style>
+    /* Chỉ áp dụng CSS cho phần main-content */
+    .main-content {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 30px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    </tbody>
-</table>
+
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #0056b3;
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    .table-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #fff;
+        display: inline-block;
+    }
+
+    .btn-sm {
+        padding: 3px 8px;
+        font-size: 12px;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .d-flex {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+</style>

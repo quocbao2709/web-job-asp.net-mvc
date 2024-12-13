@@ -1,52 +1,130 @@
 @model IEnumerable<Job_Web.Models.Application>
 
 @{
-    ViewData["Title"] = "Manage Applicants";
+ViewData["Title"] = "Manage Applicants";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="Application-container">
+    <h1 class="page-title">@ViewData["Title"]</h1>
+    <!-- Form lọc ứng viên -->
 
-<table class="table table-bordered">
-    <thead>
-    <tr>
-        <th>Job Title</th>
-        <th>Applicant Name</th>
-        <th>Application Status</th>
-        <th>Applied Date</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var application in Model)
-    {
+
+    <table class="table table-hover">
+        <thead class="table-header">
+        <tr>
+            <th>Job Title</th>
+            <th>Applicant Name</th>
+            <th>Application Status</th>
+            <th>Applied Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var application in Model)
+        {
         <tr>
             <td>@application.Job.Title</td>
             <td>@application.Customer.UserName</td>
-            <td>@application.Job.PostedDate.ToShortDateString()</td>
             <td>@application.Status</td>
+            <td>@application.Job.PostedDate.ToShortDateString()</td>
+            <td>
+                <a href="@Url.Action("ViewApplicant", new { applicantId = application.Id })" class="btn btn-info btn-sm">View Details</a>
+
+                @if (application.Status == "Pending")
+                {
+                <a href="@Url.Action("ChangeStatus", new { applicationId = application.Id, newStatus = "Shortlisted" })" class="btn btn-success btn-sm">Shortlist</a>
+                <a href="@Url.Action("ChangeStatus", new { applicationId = application.Id, newStatus = "Rejected" })" class="btn btn-danger btn-sm">Reject</a>
+                }
+                else if (application.Status == "Shortlisted")
+                {
+                <a href="@Url.Action("ChangeStatus", new { applicationId = application.Id, newStatus = "Accepted" })" class="btn btn-primary btn-sm">Accept</a>
+                <a href="@Url.Action("ChangeStatus", new { applicationId = application.Id, newStatus = "Rejected" })" class="btn btn-danger btn-sm">Reject</a>
+                }
+            </td>
         </tr>
-    }
-    </tbody>
-</table>
+        }
+        </tbody>
+    </table>
+</div>
 
 <style>
-    .table {
-        width: 100%;
-        margin-top: 20px;
-        border-collapse: collapse;
+
+    .application-container {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        color: #333;
+        margin: 30px auto;
+        padding: 20px;
+        max-width: 1200px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-        .table th, .table td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
-        }
+    .page-title {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #0056b3;
+        font-size: 24px;
+        font-weight: bold;
+    }
 
-        .table th {
-            background-color: #f2f2f2;
-            color: #333;
-        }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
 
-        .table td {
-            color: #555;
-        }
+    .table-header {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+    }
+
+    .table th {
+        font-weight: 600;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        color: #fff;
+        display: inline-block;
+    }
+
+    .btn-sm {
+        padding: 3px 8px;
+        font-size: 12px;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
 </style>

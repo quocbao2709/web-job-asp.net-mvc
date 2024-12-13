@@ -3,7 +3,7 @@
 @model Job_Web.Models.Job
 
 <h1>Create a New Job</h1>
-
+<div class="create-job-container">
 <form asp-area="Employer" asp-controller="PostJob" asp-action="Create" method="post">
     <div class="mb-3">
         <label asp-for="Title" class="form-label">Tiêu đề công việc</label>
@@ -59,7 +59,107 @@
     <button type="submit" class="btn btn-primary">Đăng công việc</button>
     <a asp-area="Employer" asp-controller="PostJob" asp-action="Index" class="btn btn-secondary">Quay lại</a>
 </form>
-
+</div>
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
 }
+<style>
+    /* General form styling */
+    .create-job-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 30px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Heading */
+    h1 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    /* Labels */
+    label {
+        font-weight: bold;
+        color: #444;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    /* Input fields and textareas */
+    input.form-control,
+    textarea.form-control,
+    select.form-control {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        transition: border-color 0.3s ease;
+    }
+
+        input.form-control:focus,
+        textarea.form-control:focus,
+        select.form-control:focus {
+            border-color: #0056b3;
+            outline: none;
+        }
+
+    /* Error messages */
+    .text-danger {
+        color: #e74c3c;
+        font-size: 0.875rem;
+    }
+
+    /* Button styles */
+    button.btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 1.125rem;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button.btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+        button.btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    button.btn-secondary {
+        background-color: #6c757d;
+        color: white;
+        margin-top: 10px;
+    }
+
+        button.btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+    /* Add some space between buttons */
+    a.btn {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    /* Form fields for EmployerId and Job Category */
+    input[type="hidden"] {
+        display: none;
+    }
+
+
+</style>

@@ -1,75 +1,144 @@
 @model Job_Web.Models.ApplicationUser
 
 @{
-    ViewData["Title"] = "Chỉnh sửa thông tin";
+ViewData["Title"] = "Chỉnh sửa thông tin";
 }
 
-<h2>Chỉnh sửa thông tin người dùng</h2>
+<h2 class="mb-4">Chỉnh sửa thông tin người dùng</h2>
 
-<form asp-action="Edit" asp-controller="Information" method="post" enctype="multipart/form-data">
+<form asp-action="Edit" asp-controller="Information" method="post" enctype="multipart/form-data" class="form-horizontal">
     <!-- Các input khác -->
-    <div class="form-group">
-        <label asp-for="Name" class="control-label">Name</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-10">
+            <input asp-for="Email" class="form-control" readonly />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-2 col-form-label">Name</label>
+        <div class="col-sm-10">
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Email" class="control-label">Email</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="Adress" class="col-sm-2 col-form-label">Address</label>
+        <div class="col-sm-10">
+            <input asp-for="Adress" class="form-control" />
+            <span asp-validation-for="Adress" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Adress" class="control-label">Address</label>
-        <input asp-for="Adress" class="form-control" />
-        <span asp-validation-for="Adress" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="City" class="col-sm-2 col-form-label">City</label>
+        <div class="col-sm-10">
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="City" class="control-label">City</label>
-        <input asp-for="City" class="form-control" />
-        <span asp-validation-for="City" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="Education" class="col-sm-2 col-form-label">Education</label>
+        <div class="col-sm-10">
+            <input asp-for="Education" class="form-control" />
+            <span asp-validation-for="Education" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="CompanyName" class="control-label">Company Name</label>
-        <input asp-for="CompanyName" class="form-control" />
-        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="WorkExperience" class="col-sm-2 col-form-label">Work Experience</label>
+        <div class="col-sm-10">
+            <input asp-for="WorkExperience" class="form-control" />
+            <span asp-validation-for="WorkExperience" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Education" class="control-label">Education</label>
-        <input asp-for="Education" class="form-control" />
-        <span asp-validation-for="Education" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="Skills" class="col-sm-2 col-form-label">Skills</label>
+        <div class="col-sm-10">
+            <input asp-for="Skills" class="form-control" />
+            <span asp-validation-for="Skills" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="WorkExperience" class="control-label">Work Experience</label>
-        <input asp-for="WorkExperience" class="form-control" />
-        <span asp-validation-for="WorkExperience" class="text-danger"></span>
+    <div class="form-group row">
+        <label asp-for="DateOfBirth" class="col-sm-2 col-form-label">Date of Birth</label>
+        <div class="col-sm-10">
+            <input asp-for="DateOfBirth" class="form-control" type="date" />
+            <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Skills" class="control-label">Skills</label>
-        <input asp-for="Skills" class="form-control" />
-        <span asp-validation-for="Skills" class="text-danger"></span>
+    <!-- Phần Upload CV -->
+    <div class="form-group row">
+        <label for="resumeFile" class="col-sm-2 col-form-label">Upload CV</label>
+        <div class="col-sm-10">
+            @if (!string.IsNullOrEmpty(Model.ResumeFilePath))
+            {
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="@Url.Content(Model.ResumeFilePath)" target="_blank" class="btn btn-info">
+                    @System.IO.Path.GetFileName(Model.ResumeFilePath)
+                </a>
+                <div>
+                    <!-- Nút xóa hồ sơ sẽ hiển thị trong trường hợp có file -->
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteResumeModal">Xóa</button>
+                </div>
+            </div>
+            }
+            else
+            {
+            <input id="resumeFile" name="resumeFile" type="file" class="form-control-file" />
+            }
+            <span asp-validation-for="ResumeFilePath" class="text-danger"></span>
+        </div>
     </div>
 
-    <div class="form-group">
-        <label asp-for="DateOfBirth" class="control-label">Date of Birth</label>
-        <input asp-for="DateOfBirth" class="form-control" type="date" />
-        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+    <!-- Nút lưu và hủy -->
+    <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+            <a asp-action="Show" class="btn btn-secondary">Hủy</a>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="resumeFile">Upload CV</label>
-        <input id="resumeFile" name="resumeFile" type="file" class="form-control" />
-        <span asp-validation-for="ResumeFilePath" class="text-danger"></span>
+
+
+    <!-- Modal xác nhận xóa CV -->
+    <div class="modal fade" id="deleteResumeModal" tabindex="-1" role="dialog" aria-labelledby="deleteResumeModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteResumeModalLabel">Xóa hồ sơ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn xóa hồ sơ hiện tại không?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                    <!-- Nút Xóa đã được thêm action để gửi yêu cầu xóa hồ sơ -->
+                    <button type="button" class="btn btn-danger" id="deleteResumeBtn">Xóa</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-    <a asp-action="Show" class="btn btn-secondary">Hủy</a>
 </form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+<script>
+    // Lắng nghe sự kiện click nút Xóa trong modal
+    document.getElementById("deleteResumeBtn").addEventListener("click", function() {
+        // Gửi yêu cầu POST đến action DeleteResume trong Controller
+        var form = document.createElement("form");
+        form.method = "POST";
+        form.action = "@Url.Action("DeleteResume", "Information", new { area = "Customer" })";
+        form.submit();
+    });
+</script>
 }

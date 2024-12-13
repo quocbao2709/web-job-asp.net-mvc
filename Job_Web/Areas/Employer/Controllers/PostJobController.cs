@@ -244,4 +244,52 @@ public class PostJobController : Controller
             .ToListAsync(); 
         return View(applications);
     }
+    public async Task<IActionResult> ViewApplicant(int applicantId)
+    {
+        // Tìm kiếm thông tin đơn ứng tuyển theo ID
+        var application = await _context.Applications
+            .Include(a => a.Job)  // Thêm thông tin công việc
+            .Include(a => a.Customer)  // Thêm thông tin người ứng tuyển (IdentityUser)
+            .FirstOrDefaultAsync(a => a.Id == applicantId);  // Lọc theo ID của ứng viên
+
+        // Nếu không tìm thấy đơn ứng tuyển
+        if (application == null)
+        {
+            _logger.LogWarning("Không tìm thấy đơn ứng tuyển với ID: {ApplicantId}", applicantId);
+            return NotFound("Không tìm thấy đơn ứng tuyển.");
+        }
+
+        // Chuyển đổi từ IdentityUser sang ApplicationUser (nếu cần)
+        var applicationUser = application.Customer as ApplicationUser;
+
+        if (applicationUser == null)
+        {
+            _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
+            return NotFound("Không thể tìm thấy thông tin ứng viên.");
+        }
+
+        // Truyền thông tin chi tiết đơn ứng tuyển và người ứng tuyển vào View
+        ViewBag.Application = application; // Truyền đơn ứng tuyển vào ViewBag
+        ViewBag.ApplicationUser = applicationUser; // Truyền người ứng tuyển vào ViewBag
+
+        return View();  // Trả về View
+    }
+
+
+    public async Task<IActionResult> ChangeStatus(int applicationId, string newStatus)
+    {
+        var application = await _context.Applications
+            .FirstOrDefaultAsync(a => a.Id == applicationId);
+
+        if (application == null)
+        {
+            return NotFound();  // Nếu không tìm thấy ứng viên
+        }
+
+        application.Status = newStatus;  // Cập nhật trạng thái của ứng viên
+        _context.Update(application);  // Cập nhật vào cơ sở dữ liệu
+        await _context.SaveChangesAsync();  // Lưu thay đổi
+
+        return RedirectToAction("GetApplicants");  // Quay lại trang danh sách ứng viên
+    }
 }
