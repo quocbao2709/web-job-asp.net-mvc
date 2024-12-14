@@ -28,6 +28,9 @@
       <_ContentIncludedByDefault Remove="Areas\Employer\Views\Applicants\Index.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Profile\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Customer\Views\Profile\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\ChangePassword.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\SelectRole.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\UserListByRole.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

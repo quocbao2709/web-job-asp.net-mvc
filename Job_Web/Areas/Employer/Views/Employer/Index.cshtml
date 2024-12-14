@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Employer Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Employer Dashboard</h2>
+
+    <div class="row justify-content-center">
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Manager Job</h5>
+                    <p class="card-text">Creat,edit,delete Job</p>
+                    <a asp-action="Index" asp-controller="PostJob" asp-area="Employer" class="btn btn-primary btn-lg">Manager Job</a>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title">GetApplicants</h5>
+                    <p class="card-text">get Application</p>
+                    <a asp-action="GetApplicants" asp-controller="PostJob" asp-area="Employer" class="btn btn-success btn-lg">GetApplicants</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+    }
+    .btn-lg {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    .card-body {
+        background-color: #f9f9f9;
+    }
+</style>

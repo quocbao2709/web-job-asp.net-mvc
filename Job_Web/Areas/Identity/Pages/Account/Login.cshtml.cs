@@ -136,6 +136,27 @@ namespace Job_Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    // Kiểm tra vai trò của người dùng và chuyển hướng phù hợp
+                    var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+
+                    if (userRole != null)
+                    {
+                        if (userRole == "Admin")
+                        {
+                            return RedirectToAction("Index", "Admin", new { area = "Admin" });
+                        }
+                        else if (userRole == "Customer")
+                        {
+                            return RedirectToAction("Index", "Customer", new { area = "Customer" });
+                        }
+                        else if (userRole == "Employer")
+                        {
+                            return RedirectToAction("Index", "Employer", new { area = "Employer" });
+                        }
+                    }
+
+                    // Nếu không có vai trò phù hợp, chuyển hướng về trang mặc định
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

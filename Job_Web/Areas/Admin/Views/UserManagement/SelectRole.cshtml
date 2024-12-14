@@ -1,0 +1,22 @@
+@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+<h2>Chọn vai trò</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Tên vai trò</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.Name</td>
+            <td>
+                <a href="@Url.Action("UsersByRole", "UserManagement", new { roleName = role.Name })" class="btn btn-primary">Xem danh sách người dùng</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

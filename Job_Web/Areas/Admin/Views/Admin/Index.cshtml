@@ -1,0 +1,59 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admin Dashboard</h2>
+
+    <div class="row justify-content-center">
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title">ResetPassWord User</h5>
+                    <p class="card-text">ResetPassWord User</p>
+                    <a asp-action="SelectRole" asp-controller="UserManagement" asp-area="Admin" class="btn btn-primary btn-lg">ResetPassWord User</a>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title">JobCategory</h5>
+                    <p class="card-text">Creat, edit, delete JobCategory.</p>
+                    <a asp-action="Index" asp-controller="JobCategory" asp-area="Admin" class="btn btn-success btn-lg">JobCategory</a>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card shadow-lg border-light rounded">
+                <div class="card-body text-center">
+                    <h5 class="card-title">EmployerApproval</h5>
+                    <p class="card-text">Accept and Decline User EmployerApproval</p>
+                    <a asp-action="Index" asp-controller="EmployerApproval" asp-area="Admin" class="btn btn-warning btn-lg">EmployerApproval</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .card {
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-10px);
+    }
+    .btn-lg {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+    }
+    .card-body {
+        background-color: #f9f9f9;
+    }
+</style>
