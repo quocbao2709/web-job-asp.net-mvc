@@ -41,6 +41,23 @@ public class JobController : Controller
         var customerId = _userManager.GetUserId(User);
         var existingApplication = await _context.Applications
             .FirstOrDefaultAsync(a => a.JobId == jobId && a.CustomerId == customerId);
+        var user = await _userManager.FindByIdAsync(customerId) as ApplicationUser;
+        if (user == null)
+        {
+            // Nếu không tìm thấy người dùng, có thể trả về lỗi hoặc chuyển hướng
+            return RedirectToAction("Error", "Home");
+        }
+
+        // Kiểm tra xem thông tin người dùng có đầy đủ không
+        if (string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Adress)
+            || string.IsNullOrEmpty(user.City) || string.IsNullOrEmpty(user.Education) || string.IsNullOrEmpty(user.WorkExperience)
+            || string.IsNullOrEmpty(user.Skills) || !user.DateOfBirth.HasValue || string.IsNullOrEmpty(user.ResumeFilePath))
+        {
+            // Nếu thông tin chưa đầy đủ, hiển thị popup yêu cầu cập nhật thông tin
+            TempData["Error"] = "Bạn cần cập nhật thông tin cá nhân trước khi nộp đơn.";
+            return RedirectToAction("Show", "Information");
+        }
+        
         if (existingApplication != null)
         {
             return RedirectToAction("AppliedJobs", "Job");

@@ -1,10 +1,212 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+<body>
+    
 
-<div class="text-center">
-    <h1 class="display-4">Hello Everybody!</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <!-- Hiển thị customerId -->
-    <p><strong>ID người dùng hiện tại:</strong> @Model</p>
-</div>
+    <header class="hero-section">
+        <div class="overlay"></div>
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-md-8 text-white">
+                    <h1 class="display-4 fw-bold">Find Your Dream Job</h1>
+                    <p class="lead">Connect with top employers and discover opportunities that match your skills</p>
+                    <button class="btn btn-primary btn-lg">Browse Jobs</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-section py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h2 class="fw-bold mb-4">About Us</h2>
+                    <p>We connect talented professionals with leading companies worldwide. Our platform makes job searching and hiring seamless.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>10,000+ Active Job Listings</li>
+                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Easy Application Process</li>
+                        <li><i class="bi bi-check-circle-fill text-primary me-2"></i>Premium Company Partners</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <img src="@Url.Content("~/images/anhso2.jpg")" class="img-fluid rounded" alt="Team Meeting">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="jobs-section py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">Featured Jobs</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Senior Software Engineer</h5>
+                            <p class="card-text text-muted">Google Inc. - San Francisco</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Full Time</span>
+                                <button class="btn btn-outline-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Product Manager</h5>
+                            <p class="card-text text-muted">Microsoft - Seattle</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Full Time</span>
+                                <button class="btn btn-outline-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">UX Designer</h5>
+                            <p class="card-text text-muted">Apple - Cupertino</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">Full Time</span>
+                                <button class="btn btn-outline-primary">Apply Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button class="btn btn-primary btn-lg">View All Jobs</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">What People Say</h2>
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" class="rounded-circle mb-3" width="80" alt="John Doe">
+                                <h5 class="card-title">John Doe</h5>
+                                <p class="card-text">"Found my dream job within a week! The platform is incredibly user-friendly."</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330" class="rounded-circle mb-3" width="80" alt="Jane Smith">
+                                <h5 class="card-title">Jane Smith</h5>
+                                <p class="card-text">"As an employer, I've found amazing talent through CareerConnect."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <h5>CareerConnect</h5>
+                    <p>Your gateway to career success</p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h5>Follow Us</h5>
+                    <div class="social-links">
+                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<style>
+    .hero-section {
+        background: url('@Url.Content("~/images/anhso1.png")') center/cover;
+        height: calc(100vh - 56px); /* Trừ chiều cao của header (56px) */
+        position: relative;
+        margin-top: 0; /* Xóa margin âm */
+        padding-top: 56px; /* Đẩy nội dung xuống để không bị che */
+    }
+
+    .hero-section .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6); /* Overlay mờ cho background */
+        z-index: 1; /* Đảm bảo overlay không che nội dung */
+    }
+
+    .hero-section .container {
+        position: relative; /* Nội dung trong container không bị ảnh hưởng bởi overlay */
+        z-index: 2;
+    }
+
+    .navbar {
+        transition: all 0.3s;
+    }
+
+    .card {
+        transition: transform 0.3s;
+        border: none;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .testimonials .carousel-item {
+        padding: 20px;
+    }
+
+    .testimonials .card {
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .social-links a {
+        font-size: 1.5rem;
+        transition: opacity 0.3s;
+    }
+
+    .social-links a:hover {
+        opacity: 0.8;
+    }
+
+    .btn-primary {
+        padding: 12px 30px;
+        border-radius: 30px;
+    }
+
+    .badge {
+        padding: 8px 16px;
+        border-radius: 20px;
+    }
+
+</style>

@@ -31,6 +31,10 @@
       <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\ChangePassword.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\SelectRole.cshtml" />
       <_ContentIncludedByDefault Remove="Areas\Admin\Views\ManageUser\UserListByRole.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Home\About.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Areas\Customer\Views\Home\Privacy.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

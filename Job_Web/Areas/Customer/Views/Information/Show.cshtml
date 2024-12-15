@@ -3,6 +3,12 @@
 @{
     ViewData["Title"] = "Thông Tin Người Dùng";
 }
+@if (TempData["Error"] != null)
+{
+<div class="alert alert-danger">
+    @TempData["Error"]
+</div>
+}
 
 <div class="container mt-5">
     <div class="card shadow-lg">
