@@ -90,80 +90,101 @@ public class InformationController : Controller
     }
 
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(ApplicationUser model, IFormFile resumeFile)
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Edit(ApplicationUser model, IFormFile? resumeFile)
+{
+    if (!ModelState.IsValid)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(model);
-        }
-
-        // Lấy thông tin người dùng hiện tại
-        var customerId = _userManager.GetUserId(User);
-        var userDetails = await _userManager.FindByIdAsync(customerId);
-
-        if (userDetails == null)
-        {
-            _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
-            return NotFound("Không tìm thấy thông tin người dùng.");
-        }
-
-        // Cập nhật thông tin người dùng
-        var applicationUser = userDetails as ApplicationUser;
-        if (applicationUser == null)
-        {
-            _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
-            return NotFound("Không thể ép kiểu thành ApplicationUser.");
-        }
-
-        applicationUser.Name = model.Name;
-        applicationUser.Email = model.Email;
-        applicationUser.Adress = model.Adress;
-        applicationUser.City = model.City;
-        applicationUser.Education = model.Education;
-        applicationUser.WorkExperience = model.WorkExperience;
-        applicationUser.Skills = model.Skills;
-        applicationUser.DateOfBirth = model.DateOfBirth;
-        
-        // Kiểm tra và lưu tệp CV mới nếu có
-        if (resumeFile != null && resumeFile.Length > 0)
-        {
-            // Đường dẫn nơi lưu trữ file
-            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-            // Tạo thư mục nếu chưa tồn tại
-            if (!Directory.Exists(uploadDir))
-            {
-                Directory.CreateDirectory(uploadDir);
-            }
-
-            // Đặt tên file và đường dẫn lưu trữ
-            var filePath = Path.Combine(uploadDir, resumeFile.FileName);
-
-            // Lưu file vào thư mục
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                await resumeFile.CopyToAsync(stream);
-            }
-
-            // Cập nhật đường dẫn file vào ResumeFilePath
-            applicationUser.ResumeFilePath = $"/uploads/{resumeFile.FileName}";
-        }
-
-        // Cập nhật thông tin qua UserManager
-        var result = await _userManager.UpdateAsync(applicationUser);
-        if (!result.Succeeded)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(string.Empty, error.Description);
-            }
-            return View(model);
-        }
-
-        _logger.LogInformation("Thông tin người dùng đã được cập nhật thành công.");
-        return RedirectToAction(nameof(Show)); // Quay lại trang hiển thị thông tin sau khi cập nhật thành công
+        return View(model);
     }
+
+    // Lấy thông tin người dùng hiện tại
+    var customerId = _userManager.GetUserId(User);
+    var userDetails = await _userManager.FindByIdAsync(customerId);
+
+    if (userDetails == null)
+    {
+        _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
+        return NotFound("Không tìm thấy thông tin người dùng.");
+    }
+
+    // Cập nhật thông tin người dùng
+    var applicationUser = userDetails as ApplicationUser;
+    if (applicationUser == null)
+    {
+        _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
+        return NotFound("Không thể ép kiểu thành ApplicationUser.");
+    }
+
+    // Cập nhật các thông tin khác
+    applicationUser.Name = model.Name;
+    applicationUser.Email = model.Email;
+    applicationUser.Adress = model.Adress;
+    applicationUser.City = model.City;
+    applicationUser.Education = model.Education;
+    applicationUser.WorkExperience = model.WorkExperience;
+    applicationUser.Skills = model.Skills;
+    applicationUser.DateOfBirth = model.DateOfBirth;
+
+    // Nếu có file CV mới, xử lý việc thay đổi file CV
+    if (resumeFile?.Length > 0)
+    {
+        // Nếu có file CV cũ, xóa file CV cũ
+        if (!string.IsNullOrEmpty(applicationUser.ResumeFilePath))
+        {
+            var oldFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", applicationUser.ResumeFilePath.TrimStart('/'));
+            if (System.IO.File.Exists(oldFilePath))
+            {
+                try
+                {
+                    // Xóa file CV cũ
+                    System.IO.File.Delete(oldFilePath);
+                    _logger.LogInformation("File CV cũ đã bị xóa: {FilePath}", oldFilePath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Không thể xóa file CV cũ: {ErrorMessage}", ex.Message);
+                    ModelState.AddModelError(string.Empty, "Không thể xóa file CV cũ.");
+                    return View(model); // Nếu có lỗi khi xóa file cũ, quay lại trang Edit
+                }
+            }
+        }
+
+        // Đường dẫn lưu trữ file CV mới
+        var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+        // Tạo thư mục nếu chưa có
+        if (!Directory.Exists(uploadDir))
+        {
+            Directory.CreateDirectory(uploadDir);
+        }
+
+        // Đặt tên file và lưu trữ
+        var filePath = Path.Combine(uploadDir, resumeFile.FileName);
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await resumeFile.CopyToAsync(stream);
+        }
+
+        // Cập nhật đường dẫn file CV mới
+        applicationUser.ResumeFilePath = $"/uploads/{resumeFile.FileName}";
+    }
+
+    // Cập nhật thông tin người dùng qua UserManager
+    var result = await _userManager.UpdateAsync(applicationUser);
+    if (!result.Succeeded)
+    {
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+        return View(model); // Nếu có lỗi, quay lại trang Edit
+    }
+
+    _logger.LogInformation("Thông tin người dùng đã được cập nhật thành công.");
+    return RedirectToAction(nameof(Show)); // Sau khi cập nhật thành công, chuyển đến trang Show
+}
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]

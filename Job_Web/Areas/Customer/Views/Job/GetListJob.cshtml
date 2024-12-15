@@ -4,106 +4,125 @@
 ViewData["Title"] = "Job Listings";
 }
 
-<h1>@ViewData["Title"]</h1>
+<!-- Tiêu đề -->
+<h1 class="text-center mb-5 text-primary">@ViewData["Title"]</h1>
 
-
+<!-- Danh sách các công việc -->
 <section class="job-listings">
-    <div class="row">
-        @foreach (var job in Model)
-        {
-        <div class="col-md-4 mb-4">
-            <div class="job-card">
-                <div class="company-logo mb-3">
-                    <img src="@job." alt="@job. Logo" class="img-fluid">
+    <div class="container">
+        <div class="row">
+            @foreach (var job in Model)
+            {
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="job-card">
+                    <!-- Logo công ty -->
+                    <div class="job-card-header">
+                        <!-- Hiển thị logo cố định -->
+                        <img src="@Url.Content("wwwroot/image/logotuyendung.jpeg")" alt="Company Logo" class="company-logo">
+                    </div>
+
+                    <!-- Tiêu đề công việc -->
+                    <h3 class="job-title">@job.Title</h3>
+
+                    <!-- Mô tả công việc -->
+                    <p class="job-description">@job.Description</p>
+
+                    <!-- Thông tin công việc -->
+                    <div class="job-info">
+                        <p><i class="bi bi-geo-alt"></i> @job.Location</p>
+                        <p><strong>Salary:</strong> @job.Salary.ToString("C")</p>
+                        <p><strong>Posted on:</strong> @job.PostedDate.ToShortDateString()</p>
+                    </div>
+
+                    <!-- Ngành nghề và nhà tuyển dụng -->
+                    <div class="job-footer">
+                        <p><strong>Category:</strong> @job.JobCategory.Description</p>
+                        <p><strong>Employer:</strong> @job.Employer?.UserName</p>
+                    </div>
+
+                    <!-- Nút Apply Now -->
+                    <button class="btn btn-primary w-100" onclick="window.location.href='@Url.Action("GetDetailJob", "Job", new { id = job.Id })'">Apply Now</button>
                 </div>
-                <h3 class="job-title">@job.Title</h3>
-                <p class="company-name">@job.Title</p>
-                <p class="location"><i class="bi bi-geo-alt"></i> @job.Location</p>
-                <div class="salary mb-3">@job.Salary</div>
-                <button class="btn btn-outline-primary w-100" onclick="window.location.href='@Url.Action("GetDetailJob", "Job", new { id = job.Id })'">Apply Now</button>
             </div>
+            }
         </div>
-        }
     </div>
 </section>
-@foreach (var job in Model)
-{
-<div class="job-card">
-    <img src="@job." alt="Company Logo" class="company-logo">
-    <div class="job-details">
-        <h3 class="job-title">@job.Title</h3>
-        <p class="company-name">@job.Title</p>
-        <p class="location">@job.Location</p>
-        <p class="salary">@job.Salary</p>
-        <p class="post-date">Đăng @job.PostedDate.ToShortDateString()</p>
-    </div>
-    <button class="btn-save-job"><i class="bi bi-heart"></i> Lưu</button>
-</div>
-}
 
-
+<!-- Styles -->
 <style>
-    .job-listing {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: flex-start;
-        padding: 20px;
+    /* Bố cục tổng thể */
+    .job-listings {
+        padding: 50px 0;
+        background-color: #f9f9f9;
     }
 
     .job-card {
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 15px;
-        width: calc(33% - 20px); /* Hiển thị 3 cột */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        position: relative;
-        transition: transform 0.2s, box-shadow 0.2s;
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: all 0.3s ease;
     }
 
     .job-card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         transform: translateY(-5px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
+    /* Thiết kế cho Logo công ty */
     .company-logo {
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         object-fit: contain;
+        margin-bottom: 15px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+    }
+
+    /* Tiêu đề công việc */
+    .job-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    /* Mô tả công việc */
+    .job-description {
+        font-size: 14px;
+        color: #555;
         margin-bottom: 10px;
     }
 
-    .job-details {
-        margin-bottom: 15px;
-    }
-
-    .job-title {
-        font-size: 16px;
-        font-weight: bold;
+    /* Thông tin công việc */
+    .job-info p {
+        font-size: 14px;
+        color: #666;
         margin: 5px 0;
     }
 
-    .company-name, .location, .salary, .job-category, .post-date {
-        font-size: 14px;
-        margin: 2px 0;
-        color: #555;
+    /* Phần footer */
+    .job-footer {
+        margin-top: 20px;
     }
 
-    .btn-save-job {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: none;
+    /* Thiết kế cho nút Apply Now */
+    .btn-primary {
+        background-color: #007bff;
         border: none;
-        color: #007bff;
-        cursor: pointer;
+        border-radius: 5px;
+        padding: 10px;
         font-size: 16px;
-        transition: color 0.2s;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
     }
 
-    .btn-save-job:hover {
-        color: #0056b3;
+    .btn-primary:hover {
+        background-color: #0056b3;
     }
 
+    
+    
 </style>
