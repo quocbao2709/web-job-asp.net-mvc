@@ -120,12 +120,12 @@ public class InformationController : Controller
         applicationUser.Email = model.Email;
         applicationUser.Adress = model.Adress;
         applicationUser.City = model.City;
-        applicationUser.CompanyName = model.CompanyName;
         applicationUser.Education = model.Education;
         applicationUser.WorkExperience = model.WorkExperience;
         applicationUser.Skills = model.Skills;
         applicationUser.DateOfBirth = model.DateOfBirth;
         
+        // Kiểm tra và lưu tệp CV mới nếu có
         if (resumeFile != null && resumeFile.Length > 0)
         {
             // Đường dẫn nơi lưu trữ file
@@ -149,7 +149,6 @@ public class InformationController : Controller
             // Cập nhật đường dẫn file vào ResumeFilePath
             applicationUser.ResumeFilePath = $"/uploads/{resumeFile.FileName}";
         }
-        
 
         // Cập nhật thông tin qua UserManager
         var result = await _userManager.UpdateAsync(applicationUser);
@@ -165,64 +164,81 @@ public class InformationController : Controller
         _logger.LogInformation("Thông tin người dùng đã được cập nhật thành công.");
         return RedirectToAction(nameof(Show)); // Quay lại trang hiển thị thông tin sau khi cập nhật thành công
     }
+
     [HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> DeleteResume()
-{
-    // Lấy ID người dùng từ UserManager
-    var customerId = _userManager.GetUserId(User);
-    if (string.IsNullOrEmpty(customerId))
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteResume()
     {
-        _logger.LogWarning("Không tìm thấy ID người dùng.");
-        return Unauthorized("Bạn cần đăng nhập để truy cập.");
-    }
-
-    // Lấy thông tin người dùng từ UserManager
-    var userDetails = await _userManager.FindByIdAsync(customerId);
-    if (userDetails == null)
-    {
-        _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
-        return NotFound("Không tìm thấy thông tin người dùng.");
-    }
-
-    // Chuyển sang ApplicationUser
-    var applicationUser = userDetails as ApplicationUser;
-    if (applicationUser == null)
-    {
-        _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
-        return NotFound("Không thể ép kiểu thành ApplicationUser.");
-    }
-
-    // Kiểm tra nếu người dùng có file hồ sơ và xóa nó
-    if (!string.IsNullOrEmpty(applicationUser.ResumeFilePath))
-    {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", applicationUser.ResumeFilePath.TrimStart('/'));
-
-        if (System.IO.File.Exists(filePath))
+        // Lấy ID người dùng từ UserManager
+        var customerId = _userManager.GetUserId(User);
+        if (string.IsNullOrEmpty(customerId))
         {
-            System.IO.File.Delete(filePath);
-            _logger.LogInformation("Hồ sơ đã bị xóa.");
+            _logger.LogWarning("Không tìm thấy ID người dùng.");
+            return Unauthorized("Bạn cần đăng nhập để truy cập.");
         }
 
-        // Cập nhật lại đường dẫn file trong cơ sở dữ liệu
-        applicationUser.ResumeFilePath = null;
-
-        // Lưu thay đổi qua UserManager
-        var result = await _userManager.UpdateAsync(applicationUser);
-        if (!result.Succeeded)
+        // Lấy thông tin người dùng từ UserManager
+        var userDetails = await _userManager.FindByIdAsync(customerId);
+        if (userDetails == null)
         {
-            foreach (var error in result.Errors)
+            _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
+            return NotFound("Không tìm thấy thông tin người dùng.");
+        }
+
+        // Chuyển sang ApplicationUser
+        var applicationUser = userDetails as ApplicationUser;
+        if (applicationUser == null)
+        {
+            _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
+            return NotFound("Không thể ép kiểu thành ApplicationUser.");
+        }
+
+        // Kiểm tra nếu người dùng có file hồ sơ và xóa nó
+        if (!string.IsNullOrEmpty(applicationUser.ResumeFilePath))
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", applicationUser.ResumeFilePath.TrimStart('/'));
+
+            if (System.IO.File.Exists(filePath))
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                try
+                {
+                    // Xóa file
+                    System.IO.File.Delete(filePath);
+                    _logger.LogInformation("Hồ sơ đã bị xóa: {FilePath}", filePath);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError("Không thể xóa file hồ sơ: {ErrorMessage}", ex.Message);
+                    ModelState.AddModelError(string.Empty, "Không thể xóa file hồ sơ.");
+                    return View("Edit", applicationUser); // Quay lại trang chỉnh sửa nếu có lỗi khi xóa file
+                }
             }
-            return View("Edit", applicationUser); // Nếu có lỗi, vẫn ở lại trang Edit
+            else
+            {
+                _logger.LogWarning("Không tìm thấy file hồ sơ tại: {FilePath}", filePath);
+                ModelState.AddModelError(string.Empty, "Không tìm thấy file hồ sơ.");
+                return View("Edit", applicationUser); // Quay lại trang chỉnh sửa nếu không tìm thấy file
+            }
+
+            // Cập nhật lại đường dẫn file trong cơ sở dữ liệu
+            applicationUser.ResumeFilePath = null;
+
+            // Lưu thay đổi qua UserManager
+            var result = await _userManager.UpdateAsync(applicationUser);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    _logger.LogError("Lỗi khi cập nhật thông tin người dùng: {Error}", error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View("Edit", applicationUser); // Nếu có lỗi, vẫn ở lại trang Edit
+            }
+
+            _logger.LogInformation("Thông tin người dùng đã được cập nhật sau khi xóa hồ sơ.");
         }
 
-        _logger.LogInformation("Thông tin người dùng đã được cập nhật sau khi xóa hồ sơ.");
+        // Sau khi xóa, chuyển hướng về trang Show để cập nhật lại giao diện
+        return RedirectToAction(nameof(Show));
     }
-
-    // Sau khi xóa, chuyển hướng về trang Show để cập nhật lại giao diện
-    return RedirectToAction(nameof(Show));
-}
-
 }
