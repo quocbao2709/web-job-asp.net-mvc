@@ -32,6 +32,7 @@ namespace Job_Web.Areas.Admin.Controllers
 
             return View(employers);
         }
+        
 
         [HttpPost]
         public async Task<IActionResult> ApproveEmployer(string userId)

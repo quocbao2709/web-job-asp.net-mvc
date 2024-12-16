@@ -1,15 +1,15 @@
 @model IEnumerable<Job_Web.Models.ApplicationUser>
 
-<h1>Duyệt tài khoản Employer</h1>
+<h1>ApproveEmployer</h1>
 
 <table class="table">
     <thead>
     <tr>
         <th>Email</th>
-        <th>Tên công ty</th>
-        <th>Địa chỉ</th>
-        <th>Thành phố</th>
-        <th>Thao tác</th>
+        <th>CompanyName</th>
+        <th>Adress</th>
+        <th>City</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -21,13 +21,13 @@
             <td>@employer.Adress</td>
             <td>@employer.City</td>
             <td>
-                <form asp-action="ApproveEmployer" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
+                <form asp-action="ApproveEmployerget" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
                     <input type="hidden" name="userId" value="@employer.Id" />
-                    <button type="submit" class="btn btn-success">Chấp nhận</button>
+                    <button type="submit" class="btn btn-success">Accept</button>
                 </form>
                 <form asp-action="Reject" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
                     <input type="hidden" name="userId" value="@employer.Id" />
-                    <button type="submit" class="btn btn-danger">Từ chối</button>
+                    <button type="submit" class="btn btn-danger">Decline</button>
                 </form>
             </td>
         </tr>

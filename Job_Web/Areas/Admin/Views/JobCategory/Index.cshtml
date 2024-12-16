@@ -1,14 +1,14 @@
 @model IEnumerable<Job_Web.Models.JobCategory>
 
-<h2>Quản lý ngành nghề</h2>
-<a asp-action="Create" class="btn btn-primary">Thêm mới ngành nghề</a>
+<h2>Manager Jobcategory</h2>
+<a asp-action="Create" class="btn btn-primary">New Jobcategory</a>
 <table class="table">
     <thead>
     <tr>
         <th>ID</th>
-        <th>Tên ngành nghề</th>
-        <th>Mô tả</th>
-        <th>Hành động</th>
+        <th>Name Profession</th>
+        <th>Description</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -19,8 +19,8 @@
             <td>@category.Profession</td>
             <td>@category.Description</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">Sửa</a>
-                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Xóa</a>
+                <a asp-action="Edit" asp-route-id="@category.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
     }

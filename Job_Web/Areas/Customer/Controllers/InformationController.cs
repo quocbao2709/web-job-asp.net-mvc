@@ -260,6 +260,6 @@ public async Task<IActionResult> Edit(ApplicationUser model, IFormFile? resumeFi
         }
 
         // Sau khi xóa, chuyển hướng về trang Show để cập nhật lại giao diện
-        return RedirectToAction(nameof(Show));
+        return View("Edit", applicationUser);
     }
 }

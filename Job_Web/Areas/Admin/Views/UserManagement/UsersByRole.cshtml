@@ -1,25 +1,25 @@
 @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityUser>
 
-<h2>Danh sách người dùng trong vai trò: @ViewBag.RoleName</h2>
+<h2>List of users in the role: @ViewBag.RoleName</h2>
 
 @if (Model.Any())
 {
     <table class="table">
         <thead>
         <tr>
-            <th>Tên người dùng</th>
+            
             <th>Email</th>
-            <th>Hành động</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var user in Model)
         {
             <tr>
-                <td>@user.UserName</td>
+                
                 <td>@user.Email</td>
                 <td>
-                    <a href="@Url.Action("UpdatePassword", "UserManagement", new { userId = user.Id, roleName = ViewBag.RoleName })" class="btn btn-warning">Thay đổi mật khẩu</a>
+                    <a href="@Url.Action("UpdatePassword", "UserManagement", new { userId = user.Id, roleName = ViewBag.RoleName })" class="btn btn-warning">Reset Password</a>
                 </td>
                 
             </tr>

@@ -6,25 +6,25 @@
 <div class="create-job-container">
 <form asp-area="Employer" asp-controller="PostJob" asp-action="Create" method="post">
     <div class="mb-3">
-        <label asp-for="Title" class="form-label">Tiêu đề công việc</label>
+        <label asp-for="Title" class="form-label">Title</label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Description" class="form-label">Mô tả công việc</label>
+        <label asp-for="Description" class="form-label">Description</label>
         <textarea asp-for="Description" class="form-control" rows="4"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Location" class="form-label">Vị trí</label>
+        <label asp-for="Location" class="form-label">Location</label>
         <input asp-for="Location" class="form-control" />
         <span asp-validation-for="Location" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Salary" class="form-label">Mức lương</label>
+        <label asp-for="Salary" class="form-label">Salary</label>
         <input asp-for="Salary" type="number" class="form-control" />
         <span asp-validation-for="Salary" class="text-danger"></span>
     </div>

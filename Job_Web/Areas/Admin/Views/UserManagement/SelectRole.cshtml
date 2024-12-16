@@ -1,11 +1,11 @@
 @model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
 
-<h2>Chọn vai trò</h2>
+<h2>Choose Role</h2>
 <table class="table">
     <thead>
     <tr>
-        <th>Tên vai trò</th>
-        <th>Hành động</th>
+        <th>Name Role</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -14,7 +14,7 @@
         <tr>
             <td>@role.Name</td>
             <td>
-                <a href="@Url.Action("UsersByRole", "UserManagement", new { roleName = role.Name })" class="btn btn-primary">Xem danh sách người dùng</a>
+                <a href="@Url.Action("UsersByRole", "UserManagement", new { roleName = role.Name })" class="btn btn-primary">View list of users</a>
             </td>
         </tr>
     }

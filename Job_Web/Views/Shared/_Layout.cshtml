@@ -73,9 +73,15 @@
                     <!-- Hiển thị menu dành cho Admin -->
                     @if (User.IsInRole("Admin"))
                     {
-                    <li class="nav-item">
-                        <a class="nav-link text-dark fw-medium" asp-area="Admin" asp-controller="EmployerApproval" asp-action="Index">Admin Manage</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-medium" asp-area="Admin" asp-controller="EmployerApproval" asp-action="Index">Admin Manage</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-medium" asp-area="Admin" asp-controller="JobCategory" asp-action="Index">Jobcategory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark fw-medium" asp-area="Admin" asp-controller="UserManagement" asp-action="SelectRole">Reset Password</a>
+                        </li>
                     }
 
                 </ul>

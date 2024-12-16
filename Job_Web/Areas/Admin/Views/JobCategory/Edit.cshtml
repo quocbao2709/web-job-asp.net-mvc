@@ -1,21 +1,21 @@
 @model Job_Web.Models.JobCategory
 
-<h2>Chỉnh sửa ngành nghề</h2>
+<h2>Edit JobCategory</h2>
 <form asp-action="Edit">
     <input type="hidden" asp-for="Id" /> <!-- Ẩn trường Id để gửi lên server -->
 
     <div class="form-group">
-        <label for="Profession">Tên ngành nghề</label>
+        <label for="Profession">Name Profession</label>
         <input asp-for="Profession" class="form-control" />
         <span asp-validation-for="Profession" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label for="Description">Mô tả</label>
+        <label for="Description">Description</label>
         <textarea asp-for="Description" class="form-control"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
-    <a asp-action="Index" class="btn btn-secondary">Hủy</a> <!-- Nút quay lại danh sách -->
+    <button type="submit" class="btn btn-primary">Save Change</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a> <!-- Nút quay lại danh sách -->
 </form>

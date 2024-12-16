@@ -7,7 +7,7 @@ ViewData["Title"] = "Chỉnh Sửa Thông Tin Người Dùng";
 <div class="container mt-5">
     <div class="card shadow-lg">
         <div class="card-header bg-primary text-white text-center">
-            <h1 class="display-6">Chỉnh Sửa Thông Tin Người Dùng</h1>
+            <h1 class="display-6">Edit User Information</h1>
         </div>
         <div class="card-body">
             <form asp-action="Edit" method="post" enctype="multipart/form-data">
@@ -65,20 +65,24 @@ ViewData["Title"] = "Chỉnh Sửa Thông Tin Người Dùng";
                     <dd class="col-sm-8">
                         @if (string.IsNullOrEmpty(Model.ResumeFilePath))
                         {
-                        <input type="file" name="resumeFile" class="form-control" Required />
+                            <input type="file" name="resumeFile" class="form-control" Required />
                         }
                         else
                         {
-                        <label>File CV hiện tại: </label>
-                        <a href="@Url.Content(Model.ResumeFilePath)" download="@System.IO.Path.GetFileName(Model.ResumeFilePath)" class="btn btn-link">@System.IO.Path.GetFileName(Model.ResumeFilePath)</a>
-                        <br />
-                        <button type="submit" class="btn btn-danger" name="deleteResume" value="true">Xóa CV</button>
+                            <label>File CV : </label>
+                            <a href="@Url.Content(Model.ResumeFilePath)" download="@System.IO.Path.GetFileName(Model.ResumeFilePath)" class="btn btn-link">@System.IO.Path.GetFileName(Model.ResumeFilePath)</a>
+                            <br />
+                            
                         }
                     </dd>
                 </dl>
 
-                <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
-                <a href="@Url.Action("Show")" class="btn btn-secondary">Hủy</a>
+                <button type="submit" class="btn btn-primary">Save Change</button>
+                <a href="@Url.Action("Show")" class="btn btn-secondary">cancel</a>
+            </form>
+            <form asp-action="DeleteResume" method="post" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-danger">Delete CV</button>
             </form>
         </div>
     </div>

@@ -1,14 +1,14 @@
 @model Job_Web.Models.JobCategory
 
-<h2>Thêm ngành nghề mới</h2>
+<h2>New JobCategory</h2>
 <form asp-action="Create">
     <div class="form-group">
-        <label for="profession">Tên ngành nghề</label>
+        <label for="profession">Name Profession</label>
         <input asp-for="Profession" class="form-control" />
     </div>
     <div class="form-group">
-        <label for="Description">Mô tả</label>
+        <label for="Description">Description</label>
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Lưu</button>
+    <button type="submit" class="btn btn-primary">Save</button>
 </form>
