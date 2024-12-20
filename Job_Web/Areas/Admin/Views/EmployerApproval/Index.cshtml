@@ -21,7 +21,7 @@
             <td>@employer.Adress</td>
             <td>@employer.City</td>
             <td>
-                <form asp-action="ApproveEmployerget" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
+                <form asp-action="ApproveEmployer" asp-controller="EmployerApproval" asp-area="Admin" method="post" style="display:inline;">
                     <input type="hidden" name="userId" value="@employer.Id" />
                     <button type="submit" class="btn btn-success">Accept</button>
                 </form>

@@ -114,7 +114,6 @@ namespace Job_Web.Areas.Identity.Pages.Account
             {
                 // Tìm user dựa trên email
                 var user = await _userManager.FindByEmailAsync(Input.Email);
-        
                 if (user != null)
                 {
                     // Nếu tài khoản là Employer và chưa được phê duyệt
@@ -129,17 +128,13 @@ namespace Job_Web.Areas.Identity.Pages.Account
                         }
                     }
                 }
-
                 // Thực hiện đăng nhập
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-
                     // Kiểm tra vai trò của người dùng và chuyển hướng phù hợp
                     var userRole = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
-
                     if (userRole != null)
                     {
                         if (userRole == "Admin")
@@ -155,7 +150,6 @@ namespace Job_Web.Areas.Identity.Pages.Account
                             return RedirectToAction("Index", "Employer", new { area = "Employer" });
                         }
                     }
-
                     // Nếu không có vai trò phù hợp, chuyển hướng về trang mặc định
                     return LocalRedirect(returnUrl);
                 }

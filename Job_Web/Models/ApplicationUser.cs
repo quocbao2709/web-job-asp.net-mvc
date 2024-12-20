@@ -7,7 +7,6 @@ using Microsoft.Build.Framework;
 namespace Job_Web.Models;
 public class ApplicationUser:IdentityUser
 {
-    
     public string Name { get; set; }
     public string? Adress { get; set; }
     public string? City { get; set; }
@@ -19,5 +18,4 @@ public class ApplicationUser:IdentityUser
     public string? ResumeFilePath { get; set; } // Đường dẫn đến file hồ sơ xin việc
     public string? Skills { get; set; } // Các kỹ năng chuyên môn
     public DateTime? DateOfBirth { get; set; } // Ngày sinh (nếu cần thiết)
-    
 }

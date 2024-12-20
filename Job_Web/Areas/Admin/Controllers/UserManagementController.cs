@@ -71,7 +71,6 @@ namespace Job_Web.Areas.Admin.Controllers
                 ViewBag.RoleName = roleName;
                 return View();
             }
-
             if (newPassword != confirmPassword)
             {
                 ModelState.AddModelError("", "Mật khẩu không khớp.");
@@ -79,27 +78,22 @@ namespace Job_Web.Areas.Admin.Controllers
                 ViewBag.RoleName = roleName;
                 return View();
             }
-
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 return NotFound("Không tìm thấy người dùng.");
             }
-
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, resetToken, newPassword);
-
             if (result.Succeeded)
             {
                 TempData["SuccessMessage"] = $"Mật khẩu của người dùng {user.UserName} đã được cập nhật thành công.";
                 return RedirectToAction("UsersByRole", new { roleName });
             }
-
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
             }
-
             ViewBag.UserId = userId;
             ViewBag.RoleName = roleName;
             return View();

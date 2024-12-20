@@ -197,7 +197,6 @@ public async Task<IActionResult> Edit(ApplicationUser model, IFormFile? resumeFi
             _logger.LogWarning("Không tìm thấy ID người dùng.");
             return Unauthorized("Bạn cần đăng nhập để truy cập.");
         }
-
         // Lấy thông tin người dùng từ UserManager
         var userDetails = await _userManager.FindByIdAsync(customerId);
         if (userDetails == null)
@@ -205,7 +204,6 @@ public async Task<IActionResult> Edit(ApplicationUser model, IFormFile? resumeFi
             _logger.LogError("Không tìm thấy thông tin người dùng với ID: {CustomerId}", customerId);
             return NotFound("Không tìm thấy thông tin người dùng.");
         }
-
         // Chuyển sang ApplicationUser
         var applicationUser = userDetails as ApplicationUser;
         if (applicationUser == null)
@@ -213,7 +211,6 @@ public async Task<IActionResult> Edit(ApplicationUser model, IFormFile? resumeFi
             _logger.LogError("Không thể ép kiểu IdentityUser thành ApplicationUser.");
             return NotFound("Không thể ép kiểu thành ApplicationUser.");
         }
-
         // Kiểm tra nếu người dùng có file hồ sơ và xóa nó
         if (!string.IsNullOrEmpty(applicationUser.ResumeFilePath))
         {

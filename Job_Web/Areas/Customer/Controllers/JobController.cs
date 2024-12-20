@@ -47,7 +47,6 @@ public class JobController : Controller
             // Nếu không tìm thấy người dùng, có thể trả về lỗi hoặc chuyển hướng
             return RedirectToAction("Error", "Home");
         }
-
         // Kiểm tra xem thông tin người dùng có đầy đủ không
         if (string.IsNullOrEmpty(user.Name) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Adress)
             || string.IsNullOrEmpty(user.City) || string.IsNullOrEmpty(user.Education) || string.IsNullOrEmpty(user.WorkExperience)

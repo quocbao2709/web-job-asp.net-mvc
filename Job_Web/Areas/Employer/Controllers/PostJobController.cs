@@ -39,27 +39,11 @@ public class PostJobController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Lấy thông tin người dùng hiện tại
-           // var currentUser = await _userManager.GetUserAsync(User);
-
-           // if (currentUser == null)
-          //  {
-            //    _logger.LogWarning("Người dùng hiện tại không tồn tại.");
-           //     return Unauthorized();
-           // }
-
-            //_logger.LogInformation("Người dùng hiện tại ID: {UserId}", currentUser.Id);
-
-            // Gán EmployerId cho công việc
-           // job.EmployerId = currentUser.Id;
-
-            // Nếu JobCategoryId được truyền vào, tìm ngành nghề và gán vào công việc
             var jobCategory = await _context.JobCategories.FindAsync(job.JobCategoryId);
             if (jobCategory != null)
             {
                 job.JobCategory = jobCategory;  // Gán ngành nghề cho công việc
             }
-
             try
             {
                 // Lưu công việc vào cơ sở dữ liệu
@@ -74,13 +58,10 @@ public class PostJobController : Controller
                 ModelState.AddModelError("", "Có lỗi xảy ra, vui lòng thử lại.");
             }
         }
-
         // Nếu có lỗi, tải lại danh sách các JobCategories
         LoadJobCategories();
         return View(job);
     }
-
-
     // Hiển thị danh sách công việc của nhà tuyển dụng hiện tại
     public async Task<IActionResult> Index()
     {
@@ -135,7 +116,6 @@ public class PostJobController : Controller
         {
             return NotFound();
         }
-
         if (ModelState.IsValid)
         {
             // Tìm JobCategory và gán lại
@@ -144,7 +124,6 @@ public class PostJobController : Controller
             {
                 job.JobCategory = jobCategory;
             }
-
             try
             {
                 _context.Update(job);
